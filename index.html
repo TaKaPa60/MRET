@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.E.T CryptoSim - Riche en Tabarnak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-pink-dark: #b300b3;
+            --gold-light: #fcf6ba;
+            --gold-main: #ffd700;
+            --gold-dark: #aa771c;
+            --bg-black: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.85);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(255, 0, 255, 0.08) 0%, transparent 50%);
+            overflow-x: hidden;
+        }
+
+        /* Effets de Texte */
+        h1, h2, h3, .neon-title {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .neon-pink-text {
+            color: #fff;
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink),
+                0 0 80px var(--neon-pink);
+        }
+
+        .gold-text {
+            background: linear-gradient(to right, #bf953f, var(--gold-light), #b38728, var(--gold-light), var(--gold-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Header / Hero Section */
+        header {
+            position: relative;
+            /* La hauteur a été ajustée pour ne plus forcer le plein écran et réduire le vide en bas */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 2rem 3rem 2rem; /* 3rem = espacement réduit en dessous des boutons */
+            background: linear-gradient(to bottom, rgba(10,10,10,0.6), rgba(10,10,10,1)), url('fondecranRET.jpg') center/cover no-repeat;
+            border-bottom: 3px solid var(--gold-main);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .logo {
+            max-width: 300px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 15px var(--neon-pink));
+        }
+
+        header h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        header p.subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: var(--gold-light);
+            letter-spacing: 2px;
+        }
+
+        /* Boutons */
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-family: 'Orbitron', sans-serif;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .btn-gold {
+            background: linear-gradient(45deg, #bf953f, var(--gold-light), #b38728);
+            color: var(--bg-black);
+            border: 2px solid var(--gold-light);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-gold:hover {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .btn-neon {
+            background: transparent;
+            color: #fff;
+            border: 2px solid var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink), inset 0 0 10px var(--neon-pink);
+            text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-pink);
+        }
+
+        .btn-neon:hover {
+            background: var(--neon-pink);
+            box-shadow: 0 0 30px var(--neon-pink), inset 0 0 20px var(--neon-pink-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Sections Générales */
+        section {
+            padding: 2.5rem 10%;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem; 
+        }
+
+        /* Phone Mockup Section */
+        #app-preview {
+            background-color: rgba(5, 5, 5, 0.8);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 3rem; 
+        }
+
+        .phone-mockup {
+            width: 330px;
+            height: 710px;
+            border-radius: 50px;
+            padding: 12px;
+            background: linear-gradient(135deg, #444, #111, #333);
+            position: relative;
+            box-shadow: 
+                0 0 40px rgba(255, 0, 255, 0.2), 
+                0 20px 60px rgba(0,0,0,0.9),
+                inset 0 0 5px rgba(255, 255, 255, 0.5);
+            margin-top: 1.5rem;
+        }
+
+        .phone-mockup::before {
+            content: ''; position: absolute; left: -4px; top: 150px;
+            width: 4px; height: 50px; background: #555;
+            border-radius: 5px 0 0 5px; box-shadow: 0 70px 0 0 #555;
+        }
+
+        .phone-mockup::after {
+            content: ''; position: absolute; right: -4px; top: 200px;
+            width: 4px; height: 70px; background: #555;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .phone-inner {
+            width: 100%; height: 100%;
+            background-color: #000; border-radius: 38px;
+            position: relative; overflow: hidden; border: 2px solid #050505;
+        }
+
+        .phone-notch {
+            position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 25px; background: #000; border-radius: 20px;
+            z-index: 10; display: flex; align-items: center; justify-content: flex-end;
+            padding-right: 10px; box-shadow: inset 0 0 5px rgba(255,255,255,0.1);
+        }
+
+        .phone-notch::after {
+            content: ''; width: 12px; height: 12px; background: #111;
+            border-radius: 50%; box-shadow: inset 0 0 3px rgba(0, 255, 255, 0.3);
+        }
+
+        .phone-glare {
+            position: absolute; top: 0; left: 0; width: 150%; height: 150%;
+            background: linear-gradient(105deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0) 60%);
+            z-index: 5; pointer-events: none; transform: translateX(-20%);
+        }
+
+        .phone-screen {
+            display: flex; width: 100%; height: 100%; overflow-x: auto;
+            scroll-snap-type: x mandatory; scrollbar-width: none;
+            -ms-overflow-style: none; cursor: grab;
+        }
+
+        .phone-screen:active { cursor: grabbing; }
+        .phone-screen::-webkit-scrollbar { display: none; }
+
+        .phone-screen img {
+            width: 100%; height: 100%; object-fit: cover;
+            flex-shrink: 0; scroll-snap-align: center; pointer-events: none;
+        }
+
+        .swipe-indicator {
+            margin-top: 2rem; font-size: 1rem; font-weight: 600;
+            color: #fff; display: flex; align-items: center; gap: 10px; opacity: 0.8;
+        }
+
+        .swipe-icon {
+            display: inline-block; animation: swipeAnim 2s infinite ease-in-out;
+            color: var(--neon-pink); font-size: 1.5rem;
+        }
+
+        @keyframes swipeAnim {
+            0% { transform: translateX(-15px); }
+            50% { transform: translateX(15px); }
+            100% { transform: translateX(-15px); }
+        }
+
+        /* --- LAYOUT: DEUX COLONNES --- */
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4rem;
+            padding: 3rem 5%; 
+        }
+
+        .col {
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Grid Features : Forcé en 2 par 2 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 1.5rem;
+            height: 100%; 
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-top: 4px solid var(--gold-main);
+            padding: 1.5rem; 
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 255, 0.2);
+            border-color: var(--neon-pink);
+        }
+
+        .card h3 { font-size: 1.1rem; margin-bottom: 0.8rem; color: var(--gold-main); }
+        .card p { line-height: 1.5; color: #cccccc; font-size: 0.85rem; flex-grow: 1; }
+
+        /* Specs Tech */
+        .tech-specs {
+            display: flex; justify-content: space-around; flex-wrap: wrap;
+            gap: 2rem; text-align: center;
+        }
+
+        .spec-item h4 {
+            font-family: 'Orbitron', sans-serif; color: var(--neon-pink);
+            font-size: 1.5rem; margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center; padding: 3rem 2rem; background: #050505;
+            border-top: 2px solid var(--neon-pink);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .two-columns {
+                flex-direction: column;
+                gap: 4rem; 
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            section { padding: 2.5rem 5%; }
+            .btn { padding: 12px 25px; font-size: 1rem; }
+            .two-columns { gap: 3rem; }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="RETtransp.jpg" alt="Logo R.E.T" class="logo">
+    <!--    <h1 class="neon-title neon-pink-text">Mouvement R.E.T</h1>
+        <p class="subtitle gold-text">Fais le cash pis encaisse, ostie !</p> -->
+        <p style="max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.2rem; line-height: 1.5;">
+            Le simulateur de marché crypto ultime. Entraîne-toi avec les vrais prix (Binance) sans risquer un seul centime.
+        </p>
+        <div class="btn-container">
+            <a href="https://discord.gg/yRrKqXx8cf" target="_blank" class="btn btn-gold">Rejoindre le Discord</a>
+            <a href="https://www.instagram.com/ret_2027/" target="_blank" class="btn btn-neon">Suivre sur Insta</a>
+        </div>
+    </header>
+
+    <section id="app-preview">
+        <h2 class="section-title neon-pink-text">Découvre l'Interface</h2>
+        <p class="gold-text" style="font-size: 1.2rem;">Glisse, clique ou utilise ta molette !</p>
+        
+        <div class="phone-mockup">
+            <div class="phone-inner">
+                <div class="phone-notch"></div>
+                <div class="phone-glare"></div>
+                <div class="phone-screen" id="carousel">
+                    <img src="Screenshot_2026-05-11-16-02-59-925_ret.cryptosim.jpg" alt="Écran Market">
+                    <img src="Screenshot_2026-05-11-16-03-04-369_ret.cryptosim.jpg" alt="Écran Trade">
+                    <img src="Screenshot_2026-05-11-16-03-09-014_ret.cryptosim.jpg" alt="Écran Portfolio">
+                    <img src="Screenshot_2026-05-11-16-03-13-149_ret.cryptosim.jpg" alt="Écran Historique">
+                    <img src="Screenshot_2026-05-11-18-30-07-922_ret.cryptosim.jpg" alt="Écran Info">
+                </div>
+            </div>
+        </div>
+        
+        <div class="swipe-indicator">
+            <span class="swipe-icon">←</span> Clic & Glisse ou Molette <span class="swipe-icon">→</span>
+        </div>
+    </section>
+
+    <section id="dashboard" class="two-columns">
+        
+        <div class="col">
+            <h2 class="section-title gold-text" style="margin-bottom: 2rem;">L'Arsenal du Trader</h2>
+            <div class="features-grid">
+                <div class="card">
+                    <h3>Marché (Market)</h3>
+                    <p>Ton tableau de bord temps réel. Suis <strong>BTC, ETH, SOL, ENA</strong> et <strong>DOT</strong>.</p>
+                </div>
+                <div class="card">
+                    <h3>Trade</h3>
+                    <p>Achat/Vente au prix du marché (commission <strong>0,1%</strong>). Montant en Fiat ou Crypto.</p>
+                </div>
+                <div class="card">
+                    <h3>Portfolio</h3>
+                    <p>Visualise ta fortune. Suis tes PnL en direct. Partage tes gains sur le Discord !</p>
+                </div>
+                <div class="card">
+                    <h3>Historique</h3>
+                    <p>Le journal de bord de tes opérations. Analyse tes entrées, sorties, et frais payés.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h2 class="section-title neon-pink-text" style="margin-bottom: 2rem;">Stratégie "R.E.T"</h2>
+            <div class="features-grid">
+                <div class="card">
+                    <h3>Diversification</h3>
+                    <p><strong class="gold-text">50%</strong> Sûres (BTC, ETH)<br><strong class="gold-text">30%</strong> Solides (SOL, DOT)<br><strong class="gold-text">20%</strong> Paris (ENA).</p>
+                </div>
+                <div class="card">
+                    <h3>Le DCA</h3>
+                    <p>Au lieu d'all-in, achète par paliers pour lisser ton prix d'entrée et battre la volatilité.</p>
+                </div>
+                <div class="card">
+                    <h3>Fear & Greed</h3>
+                    <p>N'achète pas la hype. Profite des "Dips" sanglants (-10%, -15%) pour recharger.</p>
+                </div>
+                <div class="card">
+                    <h3>Force de la Meute</h3>
+                    <p>La meilleure stratégie, c'est l'échange. Partage tes trades avec la communauté Discord.</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="tech" style="background-color: #050505;">
+        <h2 class="section-title gold-text">Fiche Technique</h2>
+        <div class="tech-specs">
+            <div class="spec-item">
+                <h4>API Binance</h4>
+                <p>Mise à jour toutes les 10 secondes</p>
+            </div>
+            <div class="spec-item">
+                <h4>Devise Fiat</h4>
+                <p>Euros (€) - Conversion USDT auto</p>
+            </div>
+            <div class="spec-item">
+                <h4>Frais Réalistes</h4>
+                <p>0.1% par transaction</p>
+            </div>
+            <div class="spec-item">
+                <h4>Mode Immersif</h4>
+                <p>Expérience Premium Plein Écran</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <img src="RETtransp.jpg" alt="Logo R.E.T" style="max-width: 150px; filter: drop-shadow(0 0 5px var(--gold-main));">
+        <div class="btn-container" style="margin-top: 2rem;">
+            <a href="https://discord.gg/yRrKqXx8cf" target="_blank" class="btn btn-gold" style="padding: 10px 20px; font-size: 1rem;">Discord</a>
+            <a href="https://www.instagram.com/ret_2027/" target="_blank" class="btn btn-neon" style="padding: 10px 20px; font-size: 1rem;">Instagram</a>
+        </div>
+        <p style="color: #777; margin-top: 2rem; font-size: 0.9rem;">© 2026 Mouvement R.E.T. Tous droits réservés.</p>
+        <p style="font-size: 0.7rem; color: #555; margin-top: 0.5rem;">Avertissement : R.E.T CryptoSim est une application de simulation. Aucun argent réel n'est investi ou gagné.</p>
+    </footer>
+
+    <script>
+        const slider = document.getElementById('carousel');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.style.scrollSnapType = 'none';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.scrollSnapType = 'x mandatory';
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.scrollSnapType = 'x mandatory';
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        slider.addEventListener('wheel', (e) => {
+            e.preventDefault(); 
+            const imageWidth = slider.clientWidth;
+            if (e.deltaY > 0) {
+                slider.scrollBy({ left: imageWidth, behavior: 'smooth' });
+            } else {
+                slider.scrollBy({ left: -imageWidth, behavior: 'smooth' });
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
