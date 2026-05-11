@@ -7,18 +7,18 @@
 	<link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     
-    <title>R.E.T CryptoSim - Le Simulateur de Trading Crypto (Riche en Tabarnak)</title>
+    <title>Mouvement R.E.T - Simulateur de Trading Crypto (Riche en Tabarnak)</title>
     <meta name="description" content="Deviens Riche en Tabarnak sans risquer ton loyer. R.E.T CryptoSim est le simulateur ultime pour s'entraîner au trading de cryptos (BTC, ETH, SOL) avec les vrais prix Binance en temps réel.">
     <meta name="keywords" content="R.E.T CryptoSim, simulateur crypto, simulation trading, prix binance temps réel, apprendre trading crypto, riche en tabarnak, portefeuille crypto virtuel">
     <meta name="author" content="Mouvement R.E.T">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ton-site-ret.com/"> <meta property="og:title" content="R.E.T CryptoSim - Entraîne-toi au trading crypto">
+    <meta property="og:url" content="https://mret.fr/"> <meta property="og:title" content="R.E.T CryptoSim - Entraîne-toi au trading crypto">
     <meta property="og:description" content="Simule tes trades avec les vrais prix du marché. Zéro perte, 100% adrénaline. Rejoins la meute !">
-    <meta property="og:image" content="https://ton-site-ret.com/RETtransp.jpg"> <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://mret.fr/RETtransp.jpg"> <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="R.E.T CryptoSim">
     <meta name="twitter:description" content="Fais le cash pis encaisse. Le simulateur crypto réaliste branché sur Binance.">
-    <meta name="twitter:image" content="https://ton-site-ret.com/RETtransp.jpg">
+    <meta name="twitter:image" content="https://mret.fr/RETtransp.jpg">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
@@ -316,7 +316,7 @@
             font-size: 1.5rem; margin-bottom: 0.5rem;
         }
 
-        /* FAQ Section (Nouveau pour le SEO) */
+        /* FAQ Section */
         .faq-container {
             max-width: 800px;
             margin: 0 auto;
@@ -341,6 +341,114 @@
             font-size: 0.95rem;
         }
 
+        /* --- LECTEUR RADIO DISCRET + VOLUME --- */
+        .radio-player-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--neon-pink);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 9999;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .radio-player-widget:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
+            border-color: var(--gold-main);
+        }
+
+        .radio-player-widget.playing {
+            animation: pulse-glow 2s infinite;
+        }
+
+        .radio-btn-icon {
+            color: var(--gold-main);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            transition: color 0.3s;
+        }
+
+        .radio-player-widget:hover .radio-btn-icon {
+            color: var(--neon-pink);
+        }
+
+        .radio-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .radio-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .radio-status {
+            font-size: 0.7rem;
+            color: var(--gold-light);
+        }
+
+        /* --- STYLES DU VOLUME --- */
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 5px;
+            padding-left: 15px;
+            border-left: 1px solid rgba(255, 215, 0, 0.3);
+            cursor: default; /* Empêche le curseur pointer sur la zone volume */
+        }
+
+        .volume-icon {
+            font-size: 1rem;
+            color: var(--gold-light);
+            cursor: pointer;
+        }
+
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            -webkit-appearance: none;
+            background: #444;
+            border-radius: 5px;
+            outline: none;
+            accent-color: var(--neon-pink);
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold-main);
+            cursor: pointer;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(255, 0, 255, 0.6); }
+            100% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
+        }
+
         /* Footer */
         footer {
             text-align: center; padding: 3rem 2rem; background: #050505;
@@ -362,6 +470,21 @@
             .two-columns { gap: 3rem; }
             .features-grid {
                 grid-template-columns: 1fr;
+            }
+            .radio-player-widget {
+                bottom: 15px;
+                right: 15px;
+                padding: 8px 15px;
+                gap: 10px;
+            }
+            .radio-title {
+                font-size: 0.75rem;
+            }
+            .volume-slider {
+                width: 40px; /* Slider plus petit sur mobile */
+            }
+            .volume-container {
+                padding-left: 10px;
             }
         }
     </style>
@@ -504,7 +627,23 @@
         <p style="font-size: 0.7rem; color: #555; margin-top: 0.5rem;">Avertissement : R.E.T CryptoSim est une application d'entraînement et de simulation de marché (Paper Trading). Aucun argent réel n'est investi, déposé ou gagné.</p>
     </footer>
 
+    <div class="radio-player-widget" id="radioWidget" onclick="toggleRadio()">
+        <div class="radio-btn-icon" id="playIcon">▶</div>
+        <div class="radio-info">
+            <span class="radio-title">R.E.T Radio</span>
+            <span class="radio-status" id="radioStatus">En pause</span>
+        </div>
+        
+        <div class="volume-container" id="volumeContainer">
+            <span class="volume-icon" id="muteIcon" onclick="toggleMute()">🔊</span>
+            <input type="range" id="volSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
+        </div>
+    </div>
+
+    <audio id="retAudio" src="https://stream-289.zeno.fm/3hwzff8eunhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIzaHd6ZmY4ZXVuaHZ2IiwiaG9zdCI6InN0cmVhbS0yODkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Il9GVk5FN3djUmRhNllQQUhZZl9aRkEiLCJpYXQiOjE3Nzg1MjM2MjEsImV4cCI6MTc3ODUyMzY4MX0.fV4Pxn9ZHs5DvtwNcL0A6oMiWC_zOVWSBAC7WTfFqiM" preload="none"></audio>
+
     <script>
+        // Script pour le Carrousel Mobile
         const slider = document.getElementById('carousel');
         let isDown = false;
         let startX;
@@ -544,6 +683,72 @@
                 slider.scrollBy({ left: -imageWidth, behavior: 'smooth' });
             }
         }, { passive: false });
+
+        // --- Script pour le Lecteur Radio ---
+        const audioEl = document.getElementById('retAudio');
+        const playIcon = document.getElementById('playIcon');
+        const radioStatus = document.getElementById('radioStatus');
+        const radioWidget = document.getElementById('radioWidget');
+        
+        // Volume Éléments
+        const volSlider = document.getElementById('volSlider');
+        const volumeContainer = document.getElementById('volumeContainer');
+        const muteIcon = document.getElementById('muteIcon');
+        
+        // Initialiser le volume
+        audioEl.volume = volSlider.value;
+        let previousVolume = audioEl.volume;
+
+        // Fonction Play/Pause
+        function toggleRadio() {
+            if (audioEl.paused) {
+                audioEl.play();
+                playIcon.innerHTML = '⏸';
+                radioStatus.innerText = 'En direct';
+                radioWidget.classList.add('playing');
+            } else {
+                audioEl.pause();
+                playIcon.innerHTML = '▶';
+                radioStatus.innerText = 'En pause';
+                radioWidget.classList.remove('playing');
+            }
+        }
+
+        // Empêcher le clic sur le bloc volume de déclencher le bouton Play/Pause
+        volumeContainer.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Gérer le changement de volume via le slider
+        volSlider.addEventListener('input', function(e) {
+            const currentVal = e.target.value;
+            audioEl.volume = currentVal;
+            
+            // Mise à jour de l'icône selon le niveau
+            if (currentVal == 0) {
+                muteIcon.innerText = '🔇';
+            } else if (currentVal < 0.5) {
+                muteIcon.innerText = '🔉';
+            } else {
+                muteIcon.innerText = '🔊';
+            }
+        });
+
+        // Gérer le Mute / Unmute au clic sur l'icône
+        function toggleMute() {
+            if (audioEl.volume > 0) {
+                // Mute
+                previousVolume = audioEl.volume;
+                audioEl.volume = 0;
+                volSlider.value = 0;
+                muteIcon.innerText = '🔇';
+            } else {
+                // Unmute
+                audioEl.volume = previousVolume > 0 ? previousVolume : 0.5;
+                volSlider.value = audioEl.volume;
+                muteIcon.innerText = audioEl.volume < 0.5 ? '🔉' : '🔊';
+            }
+        }
     </script>
 </body>
 </html>
