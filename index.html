@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.E.T CryptoSim - Riche en Tabarnak</title>
+	
+	<link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
+    <title>R.E.T CryptoSim - Le Simulateur de Trading Crypto (Riche en Tabarnak)</title>
+    <meta name="description" content="Deviens Riche en Tabarnak sans risquer ton loyer. R.E.T CryptoSim est le simulateur ultime pour s'entraîner au trading de cryptos (BTC, ETH, SOL) avec les vrais prix Binance en temps réel.">
+    <meta name="keywords" content="R.E.T CryptoSim, simulateur crypto, simulation trading, prix binance temps réel, apprendre trading crypto, riche en tabarnak, portefeuille crypto virtuel">
+    <meta name="author" content="Mouvement R.E.T">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ton-site-ret.com/"> <meta property="og:title" content="R.E.T CryptoSim - Entraîne-toi au trading crypto">
+    <meta property="og:description" content="Simule tes trades avec les vrais prix du marché. Zéro perte, 100% adrénaline. Rejoins la meute !">
+    <meta property="og:image" content="https://ton-site-ret.com/RETtransp.jpg"> <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="R.E.T CryptoSim">
+    <meta name="twitter:description" content="Fais le cash pis encaisse. Le simulateur crypto réaliste branché sur Binance.">
+    <meta name="twitter:image" content="https://ton-site-ret.com/RETtransp.jpg">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -61,13 +77,12 @@
         /* Header / Hero Section */
         header {
             position: relative;
-            /* La hauteur a été ajustée pour ne plus forcer le plein écran et réduire le vide en bas */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 5rem 2rem 3rem 2rem; /* 3rem = espacement réduit en dessous des boutons */
+            padding: 5rem 2rem 3rem 2rem;
             background: linear-gradient(to bottom, rgba(10,10,10,0.6), rgba(10,10,10,1)), url('fondecranRET.jpg') center/cover no-repeat;
             border-bottom: 3px solid var(--gold-main);
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
@@ -80,15 +95,15 @@
         }
 
         header h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
             line-height: 1.1;
         }
 
         header p.subtitle {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             color: var(--gold-light);
             letter-spacing: 2px;
         }
@@ -260,7 +275,7 @@
             flex-direction: column;
         }
 
-        /* Grid Features : Forcé en 2 par 2 */
+        /* Grid Features */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -301,6 +316,31 @@
             font-size: 1.5rem; margin-bottom: 0.5rem;
         }
 
+        /* FAQ Section (Nouveau pour le SEO) */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--card-bg);
+            border-left: 4px solid var(--neon-pink);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-radius: 0 10px 10px 0;
+        }
+        .faq-item h3 {
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            text-transform: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .faq-item p {
+            color: #ddd;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
         /* Footer */
         footer {
             text-align: center; padding: 3rem 2rem; background: #050505;
@@ -329,14 +369,16 @@
 <body>
 
     <header>
-        <img src="RETtransp.jpg" alt="Logo R.E.T" class="logo">
-    <!--    <h1 class="neon-title neon-pink-text">Mouvement R.E.T</h1>
-        <p class="subtitle gold-text">Fais le cash pis encaisse, ostie !</p> -->
+        <img src="RETtransp.jpg" alt="Logo R.E.T CryptoSim - Simulateur de marché crypto" class="logo">
+        
+        <h1 class="neon-title neon-pink-text">CryptoSim</h1>
+        <p class="subtitle gold-text">Le Simulateur de Marché Crypto Ultime</p> 
+        
         <p style="max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.2rem; line-height: 1.5;">
-            Le simulateur de marché crypto ultime. Entraîne-toi avec les vrais prix (Binance) sans risquer un seul centime.
+            Fais le cash pis encaisse, ostie ! Entraîne-toi avec les vrais prix (Binance) sans risquer un seul centime. Bâtis ta stratégie avant d'aller sur le vrai marché.
         </p>
         <div class="btn-container">
-            <a href="https://discord.gg/yRrKqXx8cf" target="_blank" class="btn btn-gold">Rejoindre le Discord</a>
+            <a href="https://discord.gg/yRrKqXx8cf" target="_blank" class="btn btn-gold">Rejoindre la Meute sur Discord</a>
             <a href="https://www.instagram.com/ret_2027/" target="_blank" class="btn btn-neon">Suivre sur Insta</a>
         </div>
     </header>
@@ -350,11 +392,11 @@
                 <div class="phone-notch"></div>
                 <div class="phone-glare"></div>
                 <div class="phone-screen" id="carousel">
-                    <img src="Screenshot_2026-05-11-16-02-59-925_ret.cryptosim.jpg" alt="Écran Market">
-                    <img src="Screenshot_2026-05-11-16-03-04-369_ret.cryptosim.jpg" alt="Écran Trade">
-                    <img src="Screenshot_2026-05-11-16-03-09-014_ret.cryptosim.jpg" alt="Écran Portfolio">
-                    <img src="Screenshot_2026-05-11-16-03-13-149_ret.cryptosim.jpg" alt="Écran Historique">
-                    <img src="Screenshot_2026-05-11-18-30-07-922_ret.cryptosim.jpg" alt="Écran Info">
+                    <img src="Screenshot_2026-05-11-16-02-59-925_ret.cryptosim.jpg" alt="Écran Market - Suivi des prix cryptomonnaies Binance en direct">
+                    <img src="Screenshot_2026-05-11-16-03-04-369_ret.cryptosim.jpg" alt="Écran Trade - Passer un ordre d'achat crypto fictif">
+                    <img src="Screenshot_2026-05-11-16-03-09-014_ret.cryptosim.jpg" alt="Écran Portfolio - Suivre l'évolution de son portefeuille crypto virtuel">
+                    <img src="Screenshot_2026-05-11-16-03-13-149_ret.cryptosim.jpg" alt="Écran Historique - Journal de trading et historique des transactions">
+                    <img src="Screenshot_2026-05-11-18-30-07-922_ret.cryptosim.jpg" alt="Écran Info - Configuration et stratégie d'investissement R.E.T">
                 </div>
             </div>
         </div>
@@ -371,19 +413,19 @@
             <div class="features-grid">
                 <div class="card">
                     <h3>Marché (Market)</h3>
-                    <p>Ton tableau de bord temps réel. Suis <strong>BTC, ETH, SOL, ENA</strong> et <strong>DOT</strong>.</p>
+                    <p>Ton tableau de bord temps réel. Suis les cours du <strong>BTC, ETH, SOL, ENA</strong> et <strong>DOT</strong> comme un pro.</p>
                 </div>
                 <div class="card">
                     <h3>Trade</h3>
-                    <p>Achat/Vente au prix du marché (commission <strong>0,1%</strong>). Montant en Fiat ou Crypto.</p>
+                    <p>Achat/Vente au prix du marché avec des conditions réalistes (commission <strong>0,1%</strong>). Investis en Fiat ou Crypto.</p>
                 </div>
                 <div class="card">
                     <h3>Portfolio</h3>
-                    <p>Visualise ta fortune. Suis tes PnL en direct. Partage tes gains sur le Discord !</p>
+                    <p>Visualise ta fortune virtuelle. Suis tes PnL (Pertes et Profits) en direct et flex tes gains sur le Discord !</p>
                 </div>
                 <div class="card">
                     <h3>Historique</h3>
-                    <p>Le journal de bord de tes opérations. Analyse tes entrées, sorties, et frais payés.</p>
+                    <p>Le journal de bord de tes opérations. Analyse tes points d'entrée, de sortie, et les frais payés pour t'améliorer.</p>
                 </div>
             </div>
         </div>
@@ -393,19 +435,19 @@
             <div class="features-grid">
                 <div class="card">
                     <h3>Diversification</h3>
-                    <p><strong class="gold-text">50%</strong> Sûres (BTC, ETH)<br><strong class="gold-text">30%</strong> Solides (SOL, DOT)<br><strong class="gold-text">20%</strong> Paris (ENA).</p>
+                    <p><strong class="gold-text">50%</strong> Valeurs Sûres (BTC, ETH)<br><strong class="gold-text">30%</strong> Projets Solides (SOL, DOT)<br><strong class="gold-text">20%</strong> Paris risqués (ENA).</p>
                 </div>
                 <div class="card">
                     <h3>Le DCA</h3>
-                    <p>Au lieu d'all-in, achète par paliers pour lisser ton prix d'entrée et battre la volatilité.</p>
+                    <p>Au lieu de faire tapis (all-in), achète par paliers réguliers pour lisser ton prix d'entrée et combattre la volatilité du marché.</p>
                 </div>
                 <div class="card">
                     <h3>Fear & Greed</h3>
-                    <p>N'achète pas la hype. Profite des "Dips" sanglants (-10%, -15%) pour recharger.</p>
+                    <p>N'achète pas quand tout le monde est hype. Profite des "Dips" sanglants (-10%, -15%) pour recharger tes bags au meilleur prix.</p>
                 </div>
                 <div class="card">
-                    <h3>Force de la Meute</h3>
-                    <p>La meilleure stratégie, c'est l'échange. Partage tes trades avec la communauté Discord.</p>
+                    <h3>La Force de la Meute</h3>
+                    <p>Le trading solo, c'est mort. La meilleure stratégie, c'est l'échange. Viens partager tes moves et tes analyses avec la communauté.</p>
                 </div>
             </div>
         </div>
@@ -413,7 +455,7 @@
     </section>
 
     <section id="tech" style="background-color: #050505;">
-        <h2 class="section-title gold-text">Fiche Technique</h2>
+        <h2 class="section-title gold-text">Sous le Capot</h2>
         <div class="tech-specs">
             <div class="spec-item">
                 <h4>API Binance</h4>
@@ -425,11 +467,29 @@
             </div>
             <div class="spec-item">
                 <h4>Frais Réalistes</h4>
-                <p>0.1% par transaction</p>
+                <p>0.1% par transaction simulée</p>
             </div>
             <div class="spec-item">
                 <h4>Mode Immersif</h4>
                 <p>Expérience Premium Plein Écran</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <h2 class="section-title neon-pink-text">Foire Aux Questions</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <h3>Pourquoi utiliser un simulateur crypto comme R.E.T ?</h3>
+                <p>Parce que se lancer à l'aveugle avec son vrai cash, c'est le meilleur moyen de tout perdre. Avec R.E.T CryptoSim, tu apprends à gérer tes émotions, à comprendre les fluctuations du Bitcoin et des altcoins en temps réel, le tout dans un environnement 100% sécurisé (paper trading).</p>
+            </div>
+            <div class="faq-item">
+                <h3>Est-ce que les prix affichés sont vrais ?</h3>
+                <p>Absolument ! L'application est directement connectée à l'API publique de Binance. Si le Bitcoin crashe ou pump dans la vraie vie, tu le verras en direct sur ton écran de simulation.</p>
+            </div>
+            <div class="faq-item">
+                <h3>C'est quoi le Mouvement R.E.T ?</h3>
+                <p>C'est plus qu'une app, c'est une mentalité. On est une communauté qui se tire vers le haut pour comprendre les marchés financiers, sans le bullshit des faux gourous. Rejoins le Discord pour discuter strats et cryptomonnaies avec nous !</p>
             </div>
         </div>
     </section>
@@ -441,7 +501,7 @@
             <a href="https://www.instagram.com/ret_2027/" target="_blank" class="btn btn-neon" style="padding: 10px 20px; font-size: 1rem;">Instagram</a>
         </div>
         <p style="color: #777; margin-top: 2rem; font-size: 0.9rem;">© 2026 Mouvement R.E.T. Tous droits réservés.</p>
-        <p style="font-size: 0.7rem; color: #555; margin-top: 0.5rem;">Avertissement : R.E.T CryptoSim est une application de simulation. Aucun argent réel n'est investi ou gagné.</p>
+        <p style="font-size: 0.7rem; color: #555; margin-top: 0.5rem;">Avertissement : R.E.T CryptoSim est une application d'entraînement et de simulation de marché (Paper Trading). Aucun argent réel n'est investi, déposé ou gagné.</p>
     </footer>
 
     <script>
