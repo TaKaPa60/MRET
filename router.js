@@ -91,8 +91,26 @@ async function loadPage(url, isPopState = false) {
                     oldScript.parentNode.replaceChild(newScript, oldScript);
                 });
                 
-                // Scroll to top and animate in
-                window.scrollTo(0, 0);
+                // Handle scroll: to anchor or to top
+                const hash = url.includes('#') ? '#' + url.split('#')[1] : null;
+                if (hash) {
+                    const targetEl = currentContent.querySelector(hash) || document.querySelector(hash);
+                    if (targetEl) {
+                        const headerOffset = 80;
+                        const elementPosition = targetEl.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    } else {
+                        window.scrollTo(0, 0);
+                    }
+                } else {
+                    window.scrollTo(0, 0);
+                }
+
                 currentContent.style.opacity = '1';
                 currentContent.style.transform = 'translateY(0)';
             }, 300);
