@@ -6,7 +6,7 @@
     <title>Crypto Monitor Pro | Terminal R.E.T</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="theme.css">
@@ -238,7 +238,7 @@
 
     <script>
         // ✅ DOTEUR est bien présent ici
-        const cryptoConfig = [
+        var cryptoConfig = [
             { symbol: 'BTCEUR', name: 'Bitcoin', currency: '€' },
             { symbol: 'ETHEUR', name: 'Ethereum', currency: '€' },
             { symbol: 'SOLEUR', name: 'Solana', currency: '€' },
@@ -248,19 +248,19 @@
             { symbol: 'ATOMEUR', name: 'Cosmos', currency: '€' }
         ];
 
-        const timeframes = {
+        var timeframes = {
             '1H': { interval: '1m', limit: 60, label: '1 Heure' },
             '1J': { interval: '1h', limit: 24, label: '1 Jour' },
             '1M': { interval: '1d', limit: 30, label: '1 Mois' },
             '6M': { interval: '1d', limit: 180, label: '6 Mois' }
         };
 
-        let charts = {}; 
-        let alerts = JSON.parse(localStorage.getItem('terminalAlerts')) || [];
-        let alarmActive = false;
-        let modalChart = null; 
-        let lastPrices = {};
-        let marketData = {};
+        var charts = {}; 
+        var alerts = JSON.parse(localStorage.getItem('terminalAlerts')) || [];
+        var alarmActive = false;
+        var modalChart = null; 
+        var lastPrices = {};
+        var marketData = {};
 
         function initApp() {
             const container = document.getElementById('chartsContainer');
@@ -321,15 +321,19 @@
             setInterval(() => {
                 cryptoConfig.forEach(c => {
                     const activeBtn = document.querySelector(`#controls-${c.symbol} .time-btn.active`);
-                    fetchChartData(c.symbol, activeBtn.innerText);
+                    if(activeBtn) fetchChartData(c.symbol, activeBtn.innerText);
                 });
-                updateTicker();
+                if(document.getElementById('tickerTrack')) {
+                    updateTicker();
+                }
             }, 30000);
         }
 
         function updateTime() {
+            const timeEl = document.getElementById('time');
+            if(!timeEl) return;
             const now = new Date();
-            document.getElementById('time').innerText = now.toLocaleTimeString('fr-FR') + ' │ ' + now.toLocaleDateString('fr-FR');
+            timeEl.innerText = now.toLocaleTimeString('fr-FR') + ' │ ' + now.toLocaleDateString('fr-FR');
         }
 
         function createChartInstance(ctx) {

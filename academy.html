@@ -749,7 +749,7 @@ window.addEventListener('resize', () => {
     }
 
     // Effet Blockchain
-    let blockCount = 3;
+    var blockCount = 3;
     function addBlock() {
         const flow = document.getElementById('blockchain-flow');
         const connector = document.createElement('div');
@@ -776,7 +776,7 @@ window.addEventListener('resize', () => {
     }
 
     // Simu Minage
-    let mining = false;
+    var mining = false;
     function startMining() {
         if(mining) return;
         mining = true;
