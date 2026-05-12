@@ -691,8 +691,19 @@ Réponds de façon concise, percutante, style "conseil entre traders pros".`;
         }
 
         // Run immediately — works both on direct load and SPA navigation
-        if (document.getElementById('chartsContainer')) {
-            initApp();
+        // Chart.js may not be loaded if we arrived via SPA router (head scripts aren't re-executed)
+        function _startApp() {
+            if (document.getElementById('chartsContainer')) {
+                initApp();
+            }
+        }
+        if (typeof Chart === 'undefined') {
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+            s.onload = _startApp;
+            document.head.appendChild(s);
+        } else {
+            _startApp();
         }
     </script>
     </main>

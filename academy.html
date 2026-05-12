@@ -607,8 +607,14 @@
 
     function initNetwork() {
         const viz = document.getElementById('network-viz');
+        if (!viz) return;
         viz.innerHTML = '';
-        viz.appendChild(document.getElementById('central-bank'));
+        // Recreate central-bank element (don't fetch after clearing innerHTML)
+        const bank = document.createElement('div');
+        bank.className = 'central-entity';
+        bank.id = 'central-bank';
+        bank.textContent = 'BCE';
+        viz.appendChild(bank);
         
         const nodes = [];
         for(let i = 0; i < 15; i++) {

@@ -375,7 +375,8 @@
     </footer>
 
         <script>
-            // Script pour le Carrousel Mobile
+            // Script pour le Carrousel Mobile — IIFE to avoid re-declaration on SPA navigation
+            (function() {
             const slider = document.getElementById('carousel');
             if (slider) {
                 let isDown = false;
@@ -417,6 +418,7 @@
                     }
                 }, { passive: false });
             }
+            })();
         </script>
     </main>
 
