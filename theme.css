@@ -372,3 +372,121 @@ textarea {
 .radio-btn-icon, .radio-info {
     cursor: pointer;
 }
+
+.radio-btn-icon {
+    font-size: 1.5rem;
+    color: var(--gold-main);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    transition: 0.3s;
+    min-width: 30px;
+    text-align: center;
+}
+
+.radio-btn-icon:hover {
+    transform: scale(1.1);
+    color: var(--neon-pink);
+}
+
+.radio-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 100px;
+}
+
+.radio-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+}
+
+.radio-status {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* Volume System Fix */
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    flex: 1; /* Take remaining space */
+    min-width: 150px;
+}
+
+.volume-icon {
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    user-select: none;
+}
+
+.volume-icon:hover {
+    transform: scale(1.2);
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    border: none; /* Reset default border if any */
+    padding: 0;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--gold-main);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--gold-main);
+    transition: 0.2s;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    background: var(--neon-pink);
+    box-shadow: 0 0 15px var(--neon-pink);
+    transform: scale(1.2);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--gold-main);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 0 10px var(--gold-main);
+    transition: 0.2s;
+}
+
+.volume-slider::-moz-range-thumb:hover {
+    background: var(--neon-pink);
+    box-shadow: 0 0 15px var(--neon-pink);
+    transform: scale(1.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .radio-player-widget:not(.collapsed) {
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+        padding: 10px 15px;
+    }
+    
+    .radio-info {
+        display: none; /* Hide text on small mobiles to save space */
+    }
+}
