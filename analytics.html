@@ -690,7 +690,10 @@ Réponds de façon concise, percutante, style "conseil entre traders pros".`;
             setTimeout(() => { if(alarmActive) playTone(); }, 600);
         }
 
-        window.onload = initApp;
+        // Run immediately — works both on direct load and SPA navigation
+        if (document.getElementById('chartsContainer')) {
+            initApp();
+        }
     </script>
     </main>
 

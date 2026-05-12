@@ -461,15 +461,17 @@
 
 <script>
 (function() {
-    // Particules
+    // Particules — null-guard for SPA navigation (element may be outside #app-content)
     const particlesContainer = document.getElementById('particles');
-    for(let i = 0; i < 30; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDelay = Math.random() * 15 + 's';
-        p.style.opacity = Math.random() * 0.5;
-        particlesContainer.appendChild(p);
+    if (particlesContainer) {
+        for(let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDelay = Math.random() * 15 + 's';
+            p.style.opacity = Math.random() * 0.5;
+            particlesContainer.appendChild(p);
+        }
     }
 
     // Gestion de l'Ã©tat actif nav
