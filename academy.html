@@ -914,16 +914,19 @@ window.addEventListener('resize', () => {
 </script>
 </main>
 
-<div class="radio-player-widget" id="radioWidget" onclick="toggleRadio()">
-    <div class="radio-btn-icon" id="playIcon">▶</div>
-    <div class="radio-info">
-        <span class="radio-title">R.E.T Radio</span>
-        <span class="radio-status" id="radioStatus">En pause</span>
-    </div>
-    
-    <div class="volume-container" id="volumeContainer">
-        <span class="volume-icon" id="muteIcon" onclick="toggleMute()">🔊</span>
-        <input type="range" id="volSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
+<div class="radio-player-widget collapsed" id="radioWidget" onclick="toggleRadioCollapse(event)">
+    <div class="radio-toggle" id="radioToggleBtn" onclick="toggleRadioCollapse(event)">✖</div>
+    <div class="radio-content" id="radioContent">
+        <div class="radio-btn-icon" id="playIcon" onclick="toggleRadio(event)">▶</div>
+        <div class="radio-info" onclick="toggleRadio(event)">
+            <span class="radio-title">R.E.T Radio</span>
+            <span class="radio-status" id="radioStatus">En pause</span>
+        </div>
+        
+        <div class="volume-container" id="volumeContainer">
+            <span class="volume-icon" id="muteIcon" onclick="toggleMute(event)">🔊</span>
+            <input type="range" id="volSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
+        </div>
     </div>
 </div>
 

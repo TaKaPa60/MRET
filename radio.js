@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let previousVolume = audioEl.volume;
 
     // Rendre la fonction globale
-    window.toggleRadio = function() {
+    window.toggleRadio = function(e) {
+        if(e) e.stopPropagation();
         if (audioEl.paused) {
             audioEl.play();
             playIcon.innerHTML = '⏸';
@@ -31,7 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Empêcher le clic sur le bloc volume de déclencher le bouton Play/Pause
+    window.toggleRadioCollapse = function(e) {
+        if(e) e.stopPropagation();
+        const toggleBtn = document.getElementById('radioToggleBtn');
+        if (radioWidget.classList.contains('collapsed')) {
+            radioWidget.classList.remove('collapsed');
+            if(toggleBtn) toggleBtn.innerHTML = '✖';
+        } else {
+            radioWidget.classList.add('collapsed');
+            if(toggleBtn) toggleBtn.innerHTML = '📻';
+        }
+    };
+
+    // Empêcher le clic sur le bloc volume de déclencher le bouton Play/Pause ou Collapse
     volumeContainer.addEventListener('click', function(e) {
         e.stopPropagation();
     });
@@ -52,7 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Rendre globale
-    window.toggleMute = function() {
+    window.toggleMute = function(e) {
+        if(e) e.stopPropagation();
         if (audioEl.volume > 0) {
             // Mute
             previousVolume = audioEl.volume;

@@ -173,39 +173,7 @@
             font-size: 0.95rem;
         }
 
-        .radio-player-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--neon-pink);
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 9999;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
 
-        .radio-player-widget:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
-            border-color: var(--gold-main);
-        }
-
-        .radio-player-widget.playing {
-            animation: pulse-glow 2s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(255, 0, 255, 0.6); }
-            100% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
-        }
 
         @media (max-width: 1024px) {
             .two-columns { flex-direction: column; gap: 4rem; }
@@ -452,16 +420,19 @@
         </script>
     </main>
 
-    <div class="radio-player-widget" id="radioWidget" onclick="toggleRadio()">
-        <div class="radio-btn-icon" id="playIcon">▶</div>
-        <div class="radio-info">
-            <span class="radio-title">R.E.T Radio</span>
-            <span class="radio-status" id="radioStatus">En pause</span>
-        </div>
-        
-        <div class="volume-container" id="volumeContainer">
-            <span class="volume-icon" id="muteIcon" onclick="toggleMute()">🔊</span>
-            <input type="range" id="volSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
+    <div class="radio-player-widget collapsed" id="radioWidget" onclick="toggleRadioCollapse(event)">
+        <div class="radio-toggle" id="radioToggleBtn" onclick="toggleRadioCollapse(event)">✖</div>
+        <div class="radio-content" id="radioContent">
+            <div class="radio-btn-icon" id="playIcon" onclick="toggleRadio(event)">▶</div>
+            <div class="radio-info" onclick="toggleRadio(event)">
+                <span class="radio-title">R.E.T Radio</span>
+                <span class="radio-status" id="radioStatus">En pause</span>
+            </div>
+            
+            <div class="volume-container" id="volumeContainer">
+                <span class="volume-icon" id="muteIcon" onclick="toggleMute(event)">🔊</span>
+                <input type="range" id="volSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
+            </div>
         </div>
     </div>
 
