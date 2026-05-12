@@ -23,60 +23,9 @@
     <meta name="twitter:image" content="https://mret.fr/RET01.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css">
     <style>
-        :root {
-            --neon-pink: #ff00ff;
-            --neon-pink-dark: #b300b3;
-            --gold-light: #fcf6ba;
-            --gold-main: #ffd700;
-            --gold-dark: #aa771c;
-            --bg-black: #0a0a0a;
-            --card-bg: rgba(20, 20, 20, 0.85);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-black);
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(255, 0, 255, 0.08) 0%, transparent 50%);
-            overflow-x: hidden;
-        }
-
-        /* Effets de Texte */
-        h1, h2, h3, .neon-title {
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-        }
-
-        .neon-pink-text {
-            color: #fff;
-            text-shadow:
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 20px var(--neon-pink),
-                0 0 40px var(--neon-pink),
-                0 0 80px var(--neon-pink);
-        }
-
-        .gold-text {
-            background: linear-gradient(to right, #bf953f, var(--gold-light), #b38728, var(--gold-light), var(--gold-dark));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 900;
-            text-shadow: 0px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        /* Header / Hero Section */
+        /* Specific page adjustments if any */
         header {
             position: relative;
             display: flex;
@@ -84,92 +33,16 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 5rem 2rem 3rem 2rem;
-            background: linear-gradient(to bottom, rgba(10,10,10,0.6), rgba(10,10,10,1)), url('fondecranRET.jpg') center/cover no-repeat;
+            padding: 8rem 2rem 4rem 2rem;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.6), rgba(10,10,10,1)), url('RET01.png') center/cover no-repeat;
             border-bottom: 3px solid var(--gold-main);
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
         }
 
-        .logo {
+        .logo-main {
             max-width: 300px;
             margin-bottom: 2rem;
             filter: drop-shadow(0 0 15px var(--neon-pink));
-        }
-
-        header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.1;
-        }
-
-        header p.subtitle {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            color: var(--gold-light);
-            letter-spacing: 2px;
-        }
-
-        /* Boutons */
-        .btn-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            font-family: 'Orbitron', sans-serif;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            cursor: pointer;
-        }
-
-        .btn-gold {
-            background: linear-gradient(45deg, #bf953f, var(--gold-light), #b38728);
-            color: var(--bg-black);
-            border: 2px solid var(--gold-light);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-        }
-
-        .btn-gold:hover {
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
-            transform: translateY(-3px);
-        }
-
-        .btn-neon {
-            background: transparent;
-            color: #fff;
-            border: 2px solid var(--neon-pink);
-            box-shadow: 0 0 10px var(--neon-pink), inset 0 0 10px var(--neon-pink);
-            text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-pink);
-        }
-
-        .btn-neon:hover {
-            background: var(--neon-pink);
-            box-shadow: 0 0 30px var(--neon-pink), inset 0 0 20px var(--neon-pink-dark);
-            transform: translateY(-3px);
-        }
-
-        /* Sections Générales */
-        section {
-            padding: 2.5rem 10%;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 2rem; 
         }
 
         /* Phone Mockup Section */
@@ -194,18 +67,6 @@
                 0 20px 60px rgba(0,0,0,0.9),
                 inset 0 0 5px rgba(255, 255, 255, 0.5);
             margin-top: 1.5rem;
-        }
-
-        .phone-mockup::before {
-            content: ''; position: absolute; left: -4px; top: 150px;
-            width: 4px; height: 50px; background: #555;
-            border-radius: 5px 0 0 5px; box-shadow: 0 70px 0 0 #555;
-        }
-
-        .phone-mockup::after {
-            content: ''; position: absolute; right: -4px; top: 200px;
-            width: 4px; height: 70px; background: #555;
-            border-radius: 0 5px 5px 0;
         }
 
         .phone-inner {
@@ -262,7 +123,6 @@
             100% { transform: translateX(-15px); }
         }
 
-        /* --- LAYOUT: DEUX COLONNES --- */
         .two-columns {
             display: flex;
             flex-wrap: wrap;
@@ -277,7 +137,6 @@
             flex-direction: column;
         }
 
-        /* Grid Features */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -285,40 +144,11 @@
             height: 100%; 
         }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 0, 255, 0.3);
-            border-top: 4px solid var(--gold-main);
-            padding: 1.5rem; 
-            border-radius: 10px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 0, 255, 0.2);
-            border-color: var(--neon-pink);
-        }
-
-        .card h3 { font-size: 1.1rem; margin-bottom: 0.8rem; color: var(--gold-main); }
-        .card p { line-height: 1.5; color: #cccccc; font-size: 0.85rem; flex-grow: 1; }
-
-        /* Specs Tech */
         .tech-specs {
             display: flex; justify-content: space-around; flex-wrap: wrap;
             gap: 2rem; text-align: center;
         }
 
-        .spec-item h4 {
-            font-family: 'Orbitron', sans-serif; color: var(--neon-pink);
-            font-size: 1.5rem; margin-bottom: 0.5rem;
-        }
-
-        /* FAQ Section */
         .faq-container {
             max-width: 800px;
             margin: 0 auto;
@@ -343,7 +173,6 @@
             font-size: 0.95rem;
         }
 
-        /* --- LECTEUR RADIO DISCRET + VOLUME --- */
         .radio-player-widget {
             position: fixed;
             bottom: 20px;
@@ -372,140 +201,48 @@
             animation: pulse-glow 2s infinite;
         }
 
-        .radio-btn-icon {
-            color: var(--gold-main);
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            transition: color 0.3s;
-        }
-
-        .radio-player-widget:hover .radio-btn-icon {
-            color: var(--neon-pink);
-        }
-
-        .radio-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .radio-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.85rem;
-            color: #fff;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .radio-status {
-            font-size: 0.7rem;
-            color: var(--gold-light);
-        }
-
-        /* --- STYLES DU VOLUME --- */
-        .volume-container {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: 5px;
-            padding-left: 15px;
-            border-left: 1px solid rgba(255, 215, 0, 0.3);
-            cursor: default; /* Empêche le curseur pointer sur la zone volume */
-        }
-
-        .volume-icon {
-            font-size: 1rem;
-            color: var(--gold-light);
-            cursor: pointer;
-        }
-
-        .volume-slider {
-            width: 60px;
-            height: 4px;
-            -webkit-appearance: none;
-            background: #444;
-            border-radius: 5px;
-            outline: none;
-            accent-color: var(--neon-pink);
-            cursor: pointer;
-        }
-
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--gold-main);
-            cursor: pointer;
-        }
-
         @keyframes pulse-glow {
             0% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
             50% { box-shadow: 0 0 30px rgba(255, 0, 255, 0.6); }
             100% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
         }
 
-        /* Footer */
-        footer {
-            text-align: center; padding: 3rem 2rem; background: #050505;
-            border-top: 2px solid var(--neon-pink);
-        }
-
-        /* Responsive */
         @media (max-width: 1024px) {
-            .two-columns {
-                flex-direction: column;
-                gap: 4rem; 
-            }
+            .two-columns { flex-direction: column; gap: 4rem; }
         }
 
         @media (max-width: 768px) {
             header h1 { font-size: 2.5rem; }
             section { padding: 2.5rem 5%; }
-            .btn { padding: 12px 25px; font-size: 1rem; }
             .two-columns { gap: 3rem; }
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .radio-player-widget {
-                bottom: 15px;
-                right: 15px;
-                padding: 8px 15px;
-                gap: 10px;
-            }
-            .radio-title {
-                font-size: 0.75rem;
-            }
-            .volume-slider {
-                width: 40px; /* Slider plus petit sur mobile */
-            }
-            .volume-container {
-                padding-left: 10px;
-            }
+            .features-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
+    <nav class="navbar">
+        <a href="index.html"><img src="RETtransp.jpg" alt="Logo R.E.T" class="nav-logo"></a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">Accueil</a>
+            <a href="academy.html" class="nav-link">Academy</a>
+            <a href="analytics.html" class="nav-link">Stats Live</a>
+        </div>
+    </nav>
+
+    <main id="app-content">
     <header>
-        <img src="RETtransp.jpg" alt="Logo R.E.T CryptoSim - Simulateur de marché crypto" class="logo">
+        <img src="RETtransp.jpg" alt="Logo R.E.T CryptoSim" class="logo-main">
         
-        <h1 class="neon-title neon-pink-text">CryptoSim</h1>
+        <h1 class="neon-pink-text">CryptoSim</h1>
         <p class="subtitle gold-text">Le Simulateur de Marché Crypto Ultime</p> 
         
         <p style="max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.2rem; line-height: 1.5;">
             Fais le cash pis encaisse, ostie ! Entraîne-toi avec les vrais prix (Binance) sans risquer un seul centime. Bâtis ta stratégie avant d'aller sur le vrai marché.
         </p>
-        <div class="btn-container">
-            <a href="https://discord.gg/yRrKqXx8cf" target="_blank" class="btn btn-gold">Rejoindre la Meute sur Discord</a>
-            <a href="https://www.instagram.com/ret_2027/" target="_blank" class="btn btn-neon">Suivre sur Insta</a>
-			<a href="analytics.html" target="_blank" class="btn btn-gold">Crypto Terminal Stats</a>
+        <div class="btn-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <a href="https://discord.gg/yRrKqXx8cf" target="_blank" class="btn btn-gold">Rejoindre la Meute</a>
+            <a href="academy.html" class="btn btn-neon">Apprendre la Crypto</a>
         </div>
     </header>
 
@@ -669,6 +406,52 @@
         <p style="font-size: 0.7rem; color: #555; margin-top: 0.5rem;">Avertissement : R.E.T CryptoSim est une application d'entraînement et de simulation de marché (Paper Trading). Aucun argent réel n'est investi, déposé ou gagné.</p>
     </footer>
 
+        <script>
+            // Script pour le Carrousel Mobile
+            const slider = document.getElementById('carousel');
+            if (slider) {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                slider.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    slider.style.scrollSnapType = 'none';
+                    startX = e.pageX - slider.offsetLeft;
+                    scrollLeft = slider.scrollLeft;
+                });
+
+                slider.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    slider.style.scrollSnapType = 'x mandatory';
+                });
+
+                slider.addEventListener('mouseup', () => {
+                    isDown = false;
+                    slider.style.scrollSnapType = 'x mandatory';
+                });
+
+                slider.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - slider.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    slider.scrollLeft = scrollLeft - walk;
+                });
+
+                slider.addEventListener('wheel', (e) => {
+                    e.preventDefault(); 
+                    const imageWidth = slider.clientWidth;
+                    if (e.deltaY > 0) {
+                        slider.scrollBy({ left: imageWidth, behavior: 'smooth' });
+                    } else {
+                        slider.scrollBy({ left: -imageWidth, behavior: 'smooth' });
+                    }
+                }, { passive: false });
+            }
+        </script>
+    </main>
+
     <div class="radio-player-widget" id="radioWidget" onclick="toggleRadio()">
         <div class="radio-btn-icon" id="playIcon">▶</div>
         <div class="radio-info">
@@ -684,113 +467,7 @@
 
     <audio id="retAudio" src="https://stream-289.zeno.fm/3hwzff8eunhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIzaHd6ZmY4ZXVuaHZ2IiwiaG9zdCI6InN0cmVhbS0yODkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Il9GVk5FN3djUmRhNllQQUhZZl9aRkEiLCJpYXQiOjE3Nzg1MjM2MjEsImV4cCI6MTc3ODUyMzY4MX0.fV4Pxn9ZHs5DvtwNcL0A6oMiWC_zOVWSBAC7WTfFqiM" preload="none"></audio>
 
-    <script>
-        // Script pour le Carrousel Mobile
-        const slider = document.getElementById('carousel');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.style.scrollSnapType = 'none';
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        });
-
-        slider.addEventListener('mouseleave', () => {
-            isDown = false;
-            slider.style.scrollSnapType = 'x mandatory';
-        });
-
-        slider.addEventListener('mouseup', () => {
-            isDown = false;
-            slider.style.scrollSnapType = 'x mandatory';
-        });
-
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2;
-            slider.scrollLeft = scrollLeft - walk;
-        });
-
-        slider.addEventListener('wheel', (e) => {
-            e.preventDefault(); 
-            const imageWidth = slider.clientWidth;
-            if (e.deltaY > 0) {
-                slider.scrollBy({ left: imageWidth, behavior: 'smooth' });
-            } else {
-                slider.scrollBy({ left: -imageWidth, behavior: 'smooth' });
-            }
-        }, { passive: false });
-
-        // --- Script pour le Lecteur Radio ---
-        const audioEl = document.getElementById('retAudio');
-        const playIcon = document.getElementById('playIcon');
-        const radioStatus = document.getElementById('radioStatus');
-        const radioWidget = document.getElementById('radioWidget');
-        
-        // Volume Éléments
-        const volSlider = document.getElementById('volSlider');
-        const volumeContainer = document.getElementById('volumeContainer');
-        const muteIcon = document.getElementById('muteIcon');
-        
-        // Initialiser le volume
-        audioEl.volume = volSlider.value;
-        let previousVolume = audioEl.volume;
-
-        // Fonction Play/Pause
-        function toggleRadio() {
-            if (audioEl.paused) {
-                audioEl.play();
-                playIcon.innerHTML = '⏸';
-                radioStatus.innerText = 'En direct';
-                radioWidget.classList.add('playing');
-            } else {
-                audioEl.pause();
-                playIcon.innerHTML = '▶';
-                radioStatus.innerText = 'En pause';
-                radioWidget.classList.remove('playing');
-            }
-        }
-
-        // Empêcher le clic sur le bloc volume de déclencher le bouton Play/Pause
-        volumeContainer.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-
-        // Gérer le changement de volume via le slider
-        volSlider.addEventListener('input', function(e) {
-            const currentVal = e.target.value;
-            audioEl.volume = currentVal;
-            
-            // Mise à jour de l'icône selon le niveau
-            if (currentVal == 0) {
-                muteIcon.innerText = '🔇';
-            } else if (currentVal < 0.5) {
-                muteIcon.innerText = '🔉';
-            } else {
-                muteIcon.innerText = '🔊';
-            }
-        });
-
-        // Gérer le Mute / Unmute au clic sur l'icône
-        function toggleMute() {
-            if (audioEl.volume > 0) {
-                // Mute
-                previousVolume = audioEl.volume;
-                audioEl.volume = 0;
-                volSlider.value = 0;
-                muteIcon.innerText = '🔇';
-            } else {
-                // Unmute
-                audioEl.volume = previousVolume > 0 ? previousVolume : 0.5;
-                volSlider.value = audioEl.volume;
-                muteIcon.innerText = audioEl.volume < 0.5 ? '🔉' : '🔊';
-            }
-        }
-    </script>
+    <script src="radio.js"></script>
+    <script src="router.js"></script>
 </body>
 </html>

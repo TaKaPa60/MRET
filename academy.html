@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.E.T Academy — Comment Fonctionne la Crypto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css">
+    <style>
+        /* Academy-specific overrides */
+        :root {
+            --purple: #ff00ff; /* Harmonized with neon-pink */
+            --purple-light: #ff77ff;
+            --gold: #ffd700;
+        }
+
+        .header { display: none; } /* Hide old header */
+        
+        .section {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 120px 24px 60px;
+            position: relative;
+            max-width: 900px; margin: 0 auto;
+        }
+
+        .intro-hero h1 {
+            font-size: 48px; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 4px;
+            line-height: 1.1; margin-bottom: 16px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .highlight {
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .ticker-wrap {
+            width: 100%; overflow: hidden;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 0; margin-bottom: 30px;
+        }
+
+        .ticker {
+            display: flex; gap: 40px;
+            animation: ticker 20s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .blockchain-flow { display: flex; flex-direction: column; gap: 16px; width: 100%; position: relative; }
+        .block-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            transition: 0.3s;
+        }
+        .block-item.active { border-color: var(--gold-main); box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); }
+        
+        .block-header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .block-number { font-weight: 900; color: var(--gold-light); font-family: 'Orbitron', sans-serif; }
+        .block-time { color: #94a3b8; font-size: 0.8rem; font-family: monospace; }
+        
+        .block-hash { font-family: monospace; font-size: 0.85rem; line-height: 1.8; word-break: break-all; }
+        .block-hash .label { color: var(--neon-pink); font-weight: 700; display: inline-block; width: 50px; }
+        .block-hash .value { color: #00ff00; text-shadow: 0 0 5px #00ff00; }
+        .block-hash .prev { color: #94a3b8; }
+
+        .block-connector {
+            width: 2px; height: 30px;
+            background: var(--gold-main);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 10px var(--gold-main);
+        }
+
+        .mining-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; width: 100%; }
+        @media (max-width: 768px) { .mining-dashboard { grid-template-columns: 1fr; } }
+
+        .mining-visual {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px; text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hash-display { font-family: monospace; font-size: 1.5rem; margin: 20px 0; font-weight: 900; letter-spacing: 2px; }
+        .hash-display .target { color: var(--gold-main); }
+        .hash-display .changing { color: #fff; }
+        .nonce-display { color: #94a3b8; font-family: monospace; margin-bottom: 20px; }
+        
+        .progress-track { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: var(--gold-main); box-shadow: 0 0 10px var(--gold-main); transition: width 0.05s linear; }
+        
+        .reward-badge {
+            position: absolute; inset: 0; background: rgba(0, 255, 0, 0.1); backdrop-filter: blur(5px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: #00ff00; font-weight: 900; font-size: 1.2rem; text-shadow: 0 0 10px #00ff00;
+            opacity: 0; pointer-events: none; transition: 0.3s; z-index: 10;
+        }
+        .reward-badge.show { opacity: 1; }
+
+        .tx-scene { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; margin-bottom: 30px; }
+        @media (max-width: 768px) { .tx-scene { flex-direction: column; } }
+        
+        .wallet-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 24px; text-align: center;
+            flex: 1; position: relative;
+            transition: 0.3s;
+        }
+        .wallet-card.sending { border-color: var(--neon-pink); box-shadow: 0 0 20px rgba(255,0,255,0.2); transform: scale(1.05); }
+        .wallet-card.receiving { border-color: #00ff00; box-shadow: 0 0 20px rgba(0,255,0,0.2); transform: scale(1.05); }
+        
+        .wallet-name { font-weight: 900; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 10px; }
+        .wallet-balance { font-size: 2rem; font-weight: 900; margin-bottom: 15px; color: #fff; }
+        .wallet-key { font-family: monospace; font-size: 0.75rem; color: #94a3b8; line-height: 1.5; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; word-break: break-all; }
+        
+        .signature-strip { background: var(--neon-pink); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 4px; margin-top: 15px; border-radius: 4px; opacity: 0; transition: 0.3s; }
+        .signature-strip.visible { opacity: 1; }
+        
+        .tx-arrow { display: flex; flex-direction: column; align-items: center; color: var(--gold-main); }
+        .tx-arrow svg { width: 40px; height: 40px; stroke: currentColor; stroke-width: 2; fill: none; margin-bottom: 10px; }
+        .tx-status { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 0.9rem; color: var(--purple-light); }
+
+        .network-container {
+            width: 100%; height: 400px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            position: relative; overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .network-node {
+            position: absolute; width: 50px; height: 50px;
+            background: rgba(255, 215, 0, 0.1); border: 2px solid var(--gold-main);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-family: 'Orbitron', sans-serif; font-size: 0.7rem; font-weight: 800;
+            color: var(--gold-light); z-index: 2; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            transition: all 0.5s ease;
+            animation: pulse-node 2s infinite alternate;
+        }
+        @keyframes pulse-node { to { box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); } }
+        
+        .network-node.active { background: var(--neon-pink); border-color: var(--neon-pink); color: #fff; box-shadow: 0 0 20px var(--neon-pink); animation: pulse-active 1s infinite alternate; }
+        @keyframes pulse-active { to { box-shadow: 0 0 40px var(--neon-pink); } }
+        
+        .network-line {
+            position: absolute; height: 2px; background: rgba(255, 255, 255, 0.1);
+            transform-origin: 0 50%; z-index: 1; transition: all 0.5s ease;
+        }
+        .network-line.active { background: linear-gradient(90deg, var(--neon-pink), var(--gold-main)); box-shadow: 0 0 10px var(--neon-pink); height: 3px; }
+        
+        .central-entity {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5);
+            width: 100px; height: 100px; background: rgba(255,0,0,0.1); border: 3px solid #ff3333;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; color: #ff3333;
+            box-shadow: 0 0 30px rgba(255,0,0,0.4); z-index: 3; opacity: 0; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+        .central-entity.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+        
+        .network-legend { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        /* Bottom Navigation Fixed */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px);
+            border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 10px 0; z-index: 1000; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: #94a3b8; text-decoration: none; font-size: 0.75rem; font-weight: 700;
+            transition: 0.3s; padding: 5px 15px; border-radius: 12px;
+        }
+        .nav-item svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .nav-item:hover, .nav-item.active { color: var(--gold-main); background: rgba(255,215,0,0.1); }
+        
+        .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .particle {
+            position: absolute; width: 3px; height: 3px; background: var(--gold-main);
+            border-radius: 50%; box-shadow: 0 0 10px var(--gold-main);
+            animation: float 20s infinite linear; opacity: 0;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<nav class="navbar">
+    <a href="index.html"><img src="RETtransp.jpg" alt="Logo R.E.T" class="nav-logo"></a>
+    <div class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="academy.html" class="nav-link active">Academy</a>
+        <a href="analytics.html" class="nav-link">Stats Live</a>
+    </div>
+</nav>
+
+<main id="app-content">
+<section class="section" id="intro">
+    <div class="intro-hero fade-in">
+        <h1>La <span class="highlight">Crypto</span><br>Monnaie</h1>
+        <p class="section-subtitle">
+            Monnaie numerique decentralisee. Pas de banque. Pas d'intermediaire. 
+            Juste du code, de la cryptographie et un reseau mondial de pairs.
+        </p>
+    </div>
+
+    <div class="ticker-wrap fade-in delay-1">
+        <div class="ticker">
+            <div class="ticker-item"><span class="ticker-pair">BTC/EUR</span><span class="ticker-price">68,858.76 &euro;</span><span class="ticker-change pos">+0.27%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ETH/EUR</span><span class="ticker-price">1,972.25 &euro;</span><span class="ticker-change neg">-0.21%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">SOL/EUR</span><span class="ticker-price">81.04 &euro;</span><span class="ticker-change pos">+1.81%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">DOT/EUR</span><span class="ticker-price">1.15 &euro;</span><span class="ticker-change neg">-0.73%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ENA/EUR</span><span class="ticker-price">0.11 &euro;</span><span class="ticker-change neg">-0.08%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">BTC/EUR</span><span class="ticker-price">68,858.76 &euro;</span><span class="ticker-change pos">+0.27%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ETH/EUR</span><span class="ticker-price">1,972.25 &euro;</span><span class="ticker-change neg">-0.21%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">SOL/EUR</span><span class="ticker-price">81.04 &euro;</span><span class="ticker-change pos">+1.81%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">DOT/EUR</span><span class="ticker-price">1.15 &euro;</span><span class="ticker-change neg">-0.73%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ENA/EUR</span><span class="ticker-price">0.11 &euro;</span><span class="ticker-change neg">-0.08%</span></div>
+        </div>
+    </div>
+
+    <div class="grid-2 fade-in delay-2">
+        <div class="card">
+            <div class="card-label">Capitalisation Totale</div>
+            <div class="card-value gold">2.47T $</div>
+            <div class="stat-row">
+                <span class="stat-label">Dominance BTC</span>
+                <span class="stat-value" style="color: var(--gold)">54.2%</span>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-label">Volume 24H</div>
+            <div class="card-value purple">89.3B $</div>
+            <div class="stat-row">
+                <span class="stat-label">Transactions</span>
+                <span class="stat-value" style="color: var(--purple-light)">+12.4%</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="blockchain">
+    <h2 class="section-title fade-in">La Blockchain</h2>
+    <p class="section-subtitle fade-in">
+        Un registre distribue et immuable. Chaque bloc contient un hash cryptographique 
+        qui le lie irrevocablement au bloc precedent. Modifie un bloc, et toute la chaine s'effondre.
+    </p>
+
+    <div class="blockchain-flow fade-in delay-1" id="blockchain-flow">
+        <div class="block-item active" id="block-1">
+            <div class="block-header">
+                <span class="block-number">Bloc Genesis #1</span>
+                <span class="block-time">2009-01-03 18:15:05</span>
+            </div>
+            <div class="block-hash">
+                <div><span class="label">Hash      </span> <span class="value">000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</span></div>
+                <div><span class="label">Prev      </span> <span class="prev">0000000000000000000000000000000000000000000000000000000000000000</span></div>
+                <div><span class="label">Data      </span> <span style="color: var(--text-muted)">The Times 03/Jan/2009 Chancellor on brink of second bailout</span></div>
+            </div>
+        </div>
+
+        <div class="block-connector"></div>
+
+        <div class="block-item" id="block-2">
+            <div class="block-header">
+                <span class="block-number">Bloc #2</span>
+                <span class="block-time">2009-01-09 02:54:25</span>
+            </div>
+            <div class="block-hash">
+                <div><span class="label">Hash      </span> <span class="value">00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048</span></div>
+                <div><span class="label">Prev      </span> <span class="prev">000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</span></div>
+                <div><span class="label">Data      </span> <span style="color: var(--text-muted)">1 transaction - 50 BTC minted</span></div>
+            </div>
+        </div>
+
+        <div class="block-connector"></div>
+
+        <div class="block-item" id="block-3">
+            <div class="block-header">
+                <span class="block-number">Bloc #3</span>
+                <span class="block-time">2009-01-09 03:29:49</span>
+            </div>
+            <div class="block-hash">
+                <div><span class="label">Hash      </span> <span class="value">000000006c02c8ea6e4ff696d0e0c5c3f2c0d8e5b9e7c6a5b4c3d2e1f0a1b2c3</span></div>
+                <div><span class="label">Prev      </span> <span class="prev">00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048</span></div>
+                <div><span class="label">Data      </span> <span style="color: var(--text-muted)">2 transactions - Difficulty: 1.00</span></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-gold fade-in delay-2" onclick="addBlock()">
+        Forger un Nouveau Bloc
+    </button>
+    <p class="section-subtitle" style="margin-top: 16px; font-size: 12px;">
+        Clique pour simuler l'ajout d'un bloc. Observe comment le hash du nouveau bloc 
+        reference systematiquement le hash du bloc precedent.
+    </p>
+</section>
+
+<section class="section" id="mining">
+    <h2 class="section-title fade-in">Proof of Work</h2>
+    <p class="section-subtitle fade-in">
+        Le minage resout un puzzle cryptographique : trouver un nonce qui produit un hash 
+        commencant par un certain nombre de zeros. C'est une course de puissance de calcul 
+        ou le gagnant remporte la recompense de bloc.
+    </p>
+
+    <div class="mining-dashboard fade-in delay-1">
+        <div class="mining-visual" id="mine-panel">
+            <div class="card-label">Hash en cours</div>
+            <div class="hash-display" id="hash-display">
+                <span class="target">0000</span><span class="changing">a3f7b2d9</span>
+            </div>
+            <div class="nonce-display" id="nonce-display">Nonce: 0</div>
+            <div class="progress-track">
+                <div class="progress-fill" id="mine-progress"></div>
+            </div>
+        </div>
+        <div class="mining-visual">
+            <div class="card-label">Recompense</div>
+            <div class="card-value gold" style="margin-top: 10px;">6.25 BTC</div>
+            <div class="stat-row">
+                <span class="stat-label">Difficulte</span>
+                <span class="stat-value">72.14 T</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Hashrate</span>
+                <span class="stat-value">512 EH/s</span>
+            </div>
+            <div class="reward-badge" id="reward-badge">
+                <span style="font-size: 16px;">&#10003;</span> BLOC VALIDE
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-gold fade-in delay-2" onclick="startMining()" id="mine-btn">
+        Lancer la Resolution
+    </button>
+</section>
+
+<section class="section" id="tx">
+    <h2 class="section-title fade-in">Transactions</h2>
+    <p class="section-subtitle fade-in">
+        Alice veut envoyer des fonds a Bob. Elle signe la transaction avec sa cle privee. 
+        Le reseau verifie la signature avec sa cle publique. Pas de cle privee, pas de transaction.
+    </p>
+
+    <div class="tx-scene fade-in delay-1">
+        <div class="wallet-card" id="wallet-alice">
+            <div class="wallet-name">Alice</div>
+            <div class="wallet-balance" id="balance-alice">5.0000 BTC</div>
+            <div class="wallet-key">
+                <span style="color: var(--text-dim)">PUB:</span> 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa<br>
+                <span style="color: var(--text-dim)">PRV:</span> [MASQUEE]
+            </div>
+            <div class="signature-strip" id="sig-alice">SIGNATURE ECDSA VERIFIEE</div>
+        </div>
+
+        <div class="tx-arrow">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <span class="tx-status" id="tx-status">EN ATTENTE</span>
+        </div>
+
+        <div class="wallet-card" id="wallet-bob">
+            <div class="wallet-name">Bob</div>
+            <div class="wallet-balance" id="balance-bob">2.0000 BTC</div>
+            <div class="wallet-key">
+                <span style="color: var(--text-dim)">PUB:</span> 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2<br>
+                <span style="color: var(--text-dim)">PRV:</span> [MASQUEE]
+            </div>
+            <div class="signature-strip" id="sig-bob">TRANSACTION CONFIRMEE</div>
+        </div>
+    </div>
+
+    <button class="btn btn-gold fade-in delay-2" onclick="sendTx()" id="tx-btn">
+        Envoyer 1.0000 BTC
+    </button>
+    <p class="section-subtitle" style="margin-top: 16px; font-size: 12px;">
+        La cle privee d'Alice signe la transaction. Tout le reseau peut verifier avec sa cle publique 
+        sans jamais voir la cle privee. C'est l'asymetrie cryptographique.
+    </p>
+</section>
+
+<section class="section" id="network">
+    <h2 class="section-title fade-in">Decentralisation</h2>
+    <p class="section-subtitle fade-in">
+        Pas de banque centrale. Pas de point unique de defaillance. 
+        Des milliers de noeuds repartis sur le globe valident chaque transaction par consensus.
+    </p>
+
+    <div class="network-container" id="network-viz">
+        <div class="central-entity" id="central-bank">BCE</div>
+    </div>
+
+    <div class="network-legend">
+        <div class="legend-item">
+            <div class="legend-dot" style="background: var(--gold);"></div>
+            <span>Noeuds actifs</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: var(--purple);"></div>
+            <span>Flux de donnees</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background: var(--red);"></div>
+            <span>Banque centrale (off)</span>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 12px; width: 100%; margin-top: 20px;">
+        <button class="btn btn-primary" onclick="toggleCentralized()" id="toggle-central">
+            Montrer le Systeme Centralise
+        </button>
+    </div>
+    <p class="section-subtitle" style="margin-top: 16px; font-size: 12px;" id="network-desc">
+        Dans un reseau decentralise, si un noeud tombe, les autres continuent. 
+        Dans un systeme centralise, si la banque tombe, tout s'effondre.
+    </p>
+</section>
+
+
+
+<script>
+// Particles
+const particles = document.getElementById('particles');
+for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 15 + 's';
+    p.style.animationDuration = (10 + Math.random() * 10) + 's';
+    particles.appendChild(p);
+}
+
+// Nav
+function setActive(el) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.pill').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+}
+
+// Intersection observer for nav
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const id = entry.target.id;
+            document.querySelectorAll('.pill').forEach(p => {
+                p.classList.toggle('active', p.getAttribute('href') === '#' + id);
+            });
+            document.querySelectorAll('.nav-item').forEach(n => {
+                n.classList.toggle('active', n.getAttribute('href') === '#' + id);
+            });
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// Blockchain
+let blockCount = 3;
+function addBlock() {
+    const flow = document.getElementById('blockchain-flow');
+    const connector = document.createElement('div');
+    connector.className = 'block-connector';
+    connector.style.opacity = '0';
+
+    const block = document.createElement('div');
+    block.className = 'block-item';
+    const hash = '00000000' + Math.random().toString(16).substring(2, 10);
+    const prevHash = flow.lastElementChild.querySelector('.value')?.textContent || '0000000000000000000000000000000000000000000000000000000000000000';
+
+    block.innerHTML = `
+        <div class="block-header">
+            <span class="block-number">Bloc #${++blockCount}</span>
+            <span class="block-time">${new Date().toISOString().replace('T', ' ').substring(0, 19)}</span>
+        </div>
+        <div class="block-hash">
+            <div><span class="label">Hash      </span> <span class="value">${hash}...</span></div>
+            <div><span class="label">Prev      </span> <span class="prev">${prevHash.substring(0, 64)}</span></div>
+            <div><span class="label">Data      </span> <span style="color: var(--text-muted)">${Math.floor(Math.random() * 20 + 1)} transactions - Difficulty: ${(Math.random() * 70 + 1).toFixed(2)} T</span></div>
+        </div>
+    `;
+    block.style.opacity = '0';
+    block.style.transform = 'translateY(20px)';
+
+    flow.appendChild(connector);
+    flow.appendChild(block);
+
+    setTimeout(() => {
+        connector.style.transition = 'opacity 0.5s';
+        connector.style.opacity = '1';
+        block.style.transition = 'all 0.6s ease';
+        block.style.opacity = '1';
+        block.style.transform = 'translateY(0)';
+        block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 50);
+}
+
+// Mining
+let mining = false;
+function startMining() {
+    if (mining) return;
+    mining = true;
+    const btn = document.getElementById('mine-btn');
+    const hashDisplay = document.getElementById('hash-display');
+    const nonceDisplay = document.getElementById('nonce-display');
+    const progress = document.getElementById('mine-progress');
+    const panel = document.getElementById('mine-panel');
+    const reward = document.getElementById('reward-badge');
+
+    btn.textContent = 'Minage en cours...';
+    btn.style.opacity = '0.6';
+    panel.classList.add('active');
+    reward.classList.remove('show');
+
+    let nonce = 0;
+    const target = '0000';
+
+    const interval = setInterval(() => {
+        nonce++;
+        nonceDisplay.textContent = 'Nonce: ' + nonce;
+        progress.style.width = (nonce % 100) + '%';
+
+        const randomHex = Math.random().toString(16).substring(2, 10);
+        hashDisplay.innerHTML = '<span class="target">' + target + '</span><span class="changing">' + randomHex + '</span>';
+
+        if (randomHex.startsWith('0000') || nonce > 150) {
+            clearInterval(interval);
+            hashDisplay.innerHTML = '<span class="target">' + target + '</span><span class="changing" style="color: var(--green);">' + randomHex + '</span>';
+            nonceDisplay.textContent = 'NONCE TROUVE: ' + nonce;
+            nonceDisplay.style.color = 'var(--green)';
+            progress.style.width = '100%';
+            panel.classList.remove('active');
+            reward.classList.add('show');
+            btn.textContent = 'Lancer la Resolution';
+            btn.style.opacity = '1';
+            mining = false;
+
+            setTimeout(() => {
+                nonceDisplay.style.color = 'var(--text-dim)';
+                progress.style.width = '0%';
+                hashDisplay.innerHTML = '<span class="target">0000</span><span class="changing">a3f7b2d9</span>';
+                reward.classList.remove('show');
+            }, 4000);
+        }
+    }, 40);
+}
+
+// Transaction
+let txInProgress = false;
+function sendTx() {
+    if (txInProgress) return;
+    txInProgress = true;
+
+    const aliceBal = document.getElementById('balance-alice');
+    const bobBal = document.getElementById('balance-bob');
+    const aliceWallet = document.getElementById('wallet-alice');
+    const bobWallet = document.getElementById('wallet-bob');
+    const status = document.getElementById('tx-status');
+    const sigAlice = document.getElementById('sig-alice');
+    const sigBob = document.getElementById('sig-bob');
+    const btn = document.getElementById('tx-btn');
+
+    if (parseFloat(aliceBal.textContent) < 1) {
+        alert('Solde insuffisant !');
+        txInProgress = false;
+        return;
+    }
+
+    btn.textContent = 'Signature en cours...';
+    btn.style.opacity = '0.6';
+
+    // Step 1: Alice signs
+    setTimeout(() => {
+        aliceWallet.classList.add('sending');
+        sigAlice.classList.add('visible');
+        status.textContent = 'SIGNEE';
+        status.style.color = 'var(--purple-light)';
+
+        // Step 2: Broadcast
+        setTimeout(() => {
+            status.textContent = 'DIFFUSION';
+
+            // Step 3: Bob receives
+            setTimeout(() => {
+                aliceWallet.classList.remove('sending');
+                bobWallet.classList.add('receiving');
+
+                const newAlice = (parseFloat(aliceBal.textContent) - 1).toFixed(4);
+                const newBob = (parseFloat(bobBal.textContent) + 1).toFixed(4);
+                aliceBal.textContent = newAlice + ' BTC';
+                bobBal.textContent = newBob + ' BTC';
+
+                sigBob.classList.add('visible');
+                status.textContent = 'CONFIRMEE';
+                status.style.color = 'var(--green)';
+
+                setTimeout(() => {
+                    bobWallet.classList.remove('receiving');
+                    sigAlice.classList.remove('visible');
+                    sigBob.classList.remove('visible');
+                    status.textContent = 'EN ATTENTE';
+                    status.style.color = 'var(--purple-light)';
+                    btn.textContent = 'Envoyer 1.0000 BTC';
+                    btn.style.opacity = '1';
+                    txInProgress = false;
+                }, 3000);
+            }, 800);
+        }, 800);
+    }, 400);
+}
+
+// Network visualization
+function initNetwork() {
+    const container = document.getElementById('network-viz');
+    const nodeCount = 10;
+    const radius = 140;
+    const centerX = container.offsetWidth / 2;
+    const centerY = container.offsetHeight / 2;
+
+    const nodes = [];
+
+    for (let i = 0; i < nodeCount; i++) {
+        const angle = (i / nodeCount) * Math.PI * 2 - Math.PI / 2;
+        const x = centerX + Math.cos(angle) * radius - 25;
+        const y = centerY + Math.sin(angle) * radius - 25;
+
+        const node = document.createElement('div');
+        node.className = 'network-node';
+        node.textContent = 'N' + (i + 1);
+        node.style.left = x + 'px';
+        node.style.top = y + 'px';
+        node.style.animationDelay = (i * 0.2) + 's';
+
+        if (i === 0) node.classList.add('active');
+
+        container.appendChild(node);
+        nodes.push({ el: node, x: x + 25, y: y + 25 });
+    }
+
+    // Draw connections
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            const dx = nodes[j].x - nodes[i].x;
+            const dy = nodes[j].y - nodes[i].y;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+            const line = document.createElement('div');
+            line.className = 'network-line';
+            if (Math.random() > 0.5) line.classList.add('active');
+            line.style.width = length + 'px';
+            line.style.left = nodes[i].x + 'px';
+            line.style.top = nodes[i].y + 'px';
+            line.style.transform = 'rotate(' + angle + 'deg)';
+            line.style.animationDelay = (Math.random() * 2) + 's';
+
+            container.insertBefore(line, container.firstChild);
+        }
+    }
+}
+
+let centralized = false;
+function toggleCentralized() {
+    const bank = document.getElementById('central-bank');
+    const btn = document.getElementById('toggle-central');
+    const desc = document.getElementById('network-desc');
+    const nodes = document.querySelectorAll('.network-node');
+
+    centralized = !centralized;
+
+    if (centralized) {
+        bank.classList.add('visible');
+        btn.textContent = 'Montrer le Reseau Decentralise';
+        desc.innerHTML = 'Avec une banque centrale, un seul point de defaillance. <span style="color: var(--red)">Si elle tombe, tout le systeme s\'effondre.</span>';
+        nodes.forEach(n => {
+            n.style.opacity = '0.3';
+            n.style.transform = 'scale(0.8)';
+        });
+    } else {
+        bank.classList.remove('visible');
+        btn.textContent = 'Montrer le Systeme Centralise';
+        desc.innerHTML = 'Dans un reseau decentralise, si un noeud tombe, les autres continuent. <span style="color: var(--green)">Pas de point unique de defaillance.</span>';
+        nodes.forEach(n => {
+            n.style.opacity = '1';
+            n.style.transform = 'scale(1)';
+        });
+    }
+}
+
+window.addEventListener('load', initNetwork);
+window.addEventListener('resize', () => {
+    document.getElementById('network-viz').innerHTML = '<div class="central-entity" id="central-bank">BCE</div>';
+    initNetwork();
+});
+</script>
+
+</body>
+<footer style="margin-top: 100px;">
+    <img src="RETtransp.jpg" alt="Logo R.E.T" style="max-width: 150px; filter: drop-shadow(0 0 5px var(--gold-main));">
+    <p style="color: #777; margin-top: 1.5rem; font-size: 0.9rem;">© 2026 Mouvement R.E.T. Tous droits réservés.</p>
+</footer>
+
+<script>
+    // Particules
+    const particlesContainer = document.getElementById('particles');
+    for(let i = 0; i < 30; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDelay = Math.random() * 15 + 's';
+        p.style.opacity = Math.random() * 0.5;
+        particlesContainer.appendChild(p);
+    }
+
+    // Gestion de l'état actif nav
+    function setActive(el) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.pill').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    // Effet Blockchain
+    let blockCount = 3;
+    function addBlock() {
+        const flow = document.getElementById('blockchain-flow');
+        const connector = document.createElement('div');
+        connector.className = 'block-connector';
+        
+        blockCount++;
+        const block = document.createElement('div');
+        block.className = 'block-item active';
+        block.innerHTML = `
+            <div class="block-header">
+                <span class="block-number">Bloc #${blockCount}</span>
+                <span class="block-time">${new Date().toISOString().replace('T', ' ').split('.')[0]}</span>
+            </div>
+            <div class="block-hash">
+                <div><span class="label">Hash      </span> <span class="value">00000000${Math.random().toString(16).substring(2, 64)}</span></div>
+                <div><span class="label">Prev      </span> <span class="prev">REFERENCE BLOC #${blockCount-1}</span></div>
+                <div><span class="label">Data      </span> <span style="color: var(--text-muted)">Nouveau bloc forge avec succes</span></div>
+            </div>
+        `;
+        
+        flow.appendChild(connector);
+        flow.appendChild(block);
+        block.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Simu Minage
+    let mining = false;
+    function startMining() {
+        if(mining) return;
+        mining = true;
+        const btn = document.getElementById('mine-btn');
+        const display = document.getElementById('hash-display');
+        const nonce = document.getElementById('nonce-display');
+        const progress = document.getElementById('mine-progress');
+        const badge = document.getElementById('reward-badge');
+        
+        btn.innerText = "Calcul en cours...";
+        badge.classList.remove('show');
+        
+        let p = 0;
+        const interval = setInterval(() => {
+            p += 2;
+            progress.style.width = p + '%';
+            display.innerHTML = `<span class="target">0000</span><span class="changing">${Math.random().toString(16).substring(2, 10)}</span>`;
+            nonce.innerText = 'Nonce: ' + Math.floor(Math.random() * 1000000);
+            
+            if(p >= 100) {
+                clearInterval(interval);
+                mining = false;
+                btn.innerText = "Lancer la Resolution";
+                badge.classList.add('show');
+            }
+        }, 50);
+    }
+
+    // Simu Transaction
+    function sendTx() {
+        const status = document.getElementById('tx-status');
+        const sig = document.getElementById('sig-alice');
+        const btn = document.getElementById('tx-btn');
+        const alice = document.getElementById('balance-alice');
+        const bob = document.getElementById('balance-bob');
+        
+        btn.disabled = true;
+        status.innerText = "SIGNATURE...";
+        sig.classList.add('visible');
+        
+        setTimeout(() => {
+            status.innerText = "DIFFUSION...";
+            setTimeout(() => {
+                status.innerText = "CONFIRME";
+                alice.innerText = "4.0000 BTC";
+                bob.innerText = "3.0000 BTC";
+                document.getElementById('wallet-alice').classList.add('sending');
+                document.getElementById('wallet-bob').classList.add('receiving');
+                setTimeout(() => {
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        }, 1000);
+    }
+
+    // Simu Decentralisation
+    function toggleCentralized() {
+        const viz = document.getElementById('network-viz');
+        const bank = document.getElementById('central-bank');
+        const btn = document.getElementById('toggle-central');
+        const desc = document.getElementById('network-desc');
+        
+        if(bank.classList.contains('visible')) {
+            bank.classList.remove('visible');
+            btn.innerText = "Montrer le Systeme Centralise";
+            desc.innerText = "Dans un reseau decentralise, si un noeud tombe, les autres continuent.";
+            initNetwork();
+        } else {
+            viz.innerHTML = '';
+            viz.appendChild(bank);
+            bank.classList.add('visible');
+            btn.innerText = "Revenir au Reseau P2P";
+            desc.innerText = "Dans un systeme centralise, si la banque tombe, tout s'effondre.";
+            
+            for(let i = 0; i < 12; i++) {
+                const node = document.createElement('div');
+                node.className = 'network-node';
+                const angle = (i / 12) * Math.PI * 2;
+                node.style.left = 50 + Math.cos(angle) * 35 + '%';
+                node.style.top = 50 + Math.sin(angle) * 35 + '%';
+                node.style.transform = 'translate(-50%, -50%)';
+                node.innerText = 'USER';
+                viz.appendChild(node);
+                
+                const line = document.createElement('div');
+                line.className = 'network-line active';
+                line.style.left = '50%';
+                line.style.top = '50%';
+                line.style.width = '35%';
+                line.style.transform = `rotate(${angle * 180 / Math.PI}deg)`;
+                viz.appendChild(line);
+                }
+    }
+
+    function initNetwork() {
+        const viz = document.getElementById('network-viz');
+        viz.innerHTML = '';
+        viz.appendChild(document.getElementById('central-bank'));
+        
+        const nodes = [];
+        for(let i = 0; i < 15; i++) {
+            const node = document.createElement('div');
+            node.className = 'network-node';
+            node.style.left = Math.random() * 80 + 10 + '%';
+            node.style.top = Math.random() * 80 + 10 + '%';
+            node.innerText = 'NODE';
+            viz.appendChild(node);
+            nodes.push(node);
+        }
+        
+        for(let i = 0; i < 20; i++) {
+            const n1 = nodes[Math.floor(Math.random() * nodes.length)];
+            const n2 = nodes[Math.floor(Math.random() * nodes.length)];
+            if(n1 === n2) continue;
+            
+            const line = document.createElement('div');
+            line.className = 'network-line';
+            const x1 = parseFloat(n1.style.left);
+            const y1 = parseFloat(n1.style.top);
+            const x2 = parseFloat(n2.style.left);
+            const y2 = parseFloat(n2.style.top);
+            
+            const dist = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+            const angle = Math.atan2(y2-y1, x2-x1) * 180 / Math.PI;
+            
+            line.style.left = x1 + '%';
+            line.style.top = y1 + '%';
+            line.style.width = dist + '%';
+            line.style.transform = `rotate(${angle}deg)`;
+            viz.appendChild(line);
+        }
+    }
+
+    initNetwork();
+</script>
+</main>
+
+<div class="radio-player-widget" id="radioWidget" onclick="toggleRadio()">
+    <div class="radio-btn-icon" id="playIcon">▶</div>
+    <div class="radio-info">
+        <span class="radio-title">R.E.T Radio</span>
+        <span class="radio-status" id="radioStatus">En pause</span>
+    </div>
+    
+    <div class="volume-container" id="volumeContainer">
+        <span class="volume-icon" id="muteIcon" onclick="toggleMute()">🔊</span>
+        <input type="range" id="volSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
+    </div>
+</div>
+
+<audio id="retAudio" src="https://stream-289.zeno.fm/3hwzff8eunhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIzaHd6ZmY4ZXVuaHZ2IiwiaG9zdCI6InN0cmVhbS0yODkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Il9GVk5FN3djUmRhNllQQUhZZl9aRkEiLCJpYXQiOjE3Nzg1MjM2MjEsImV4cCI6MTc3ODUyMzY4MX0.fV4Pxn9ZHs5DvtwNcL0A6oMiWC_zOVWSBAC7WTfFqiM" preload="none"></audio>
+
+<script src="radio.js"></script>
+<script src="router.js"></script>
+</body>
+</html>
