@@ -166,10 +166,10 @@
         
         .central-entity {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5);
-            width: 100px; height: 100px; background: rgba(255,0,0,0.1); border: 3px solid #ff3333;
+            width: 100px; height: 100px; background: #0a0a0a; border: 3px solid #ff3333;
             border-radius: 50%; display: flex; justify-content: center; align-items: center;
             font-family: 'Orbitron', sans-serif; font-weight: 900; color: #ff3333;
-            box-shadow: 0 0 30px rgba(255,0,0,0.4); z-index: 3; opacity: 0; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 30px rgba(255,0,0,0.6); z-index: 5; opacity: 0; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
         }
         .central-entity.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
@@ -177,6 +177,10 @@
         .network-legend { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
         .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; }
         .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+        
+        /* Specific state for centralized nodes to ensure they are on top of lines but below bank */
+        .network-node { z-index: 4; }
+        .network-line { z-index: 2; }
 
         /* Bottom Navigation Fixed */
         .bottom-nav {
@@ -435,7 +439,7 @@
         </div>
     </div>
 
-    <div style="display: flex; gap: 12px; width: 100%; margin-top: 20px;">
+    <div style="display: flex; gap: 12px; width: 100%; margin-top: 20px; justify-content: center;">
         <button class="btn btn-primary" onclick="toggleCentralized()" id="toggle-central">
             Montrer le Systeme Centralise
         </button>
@@ -572,14 +576,16 @@
         const btn = document.getElementById('toggle-central');
         const desc = document.getElementById('network-desc');
         
+        // Supprimer les anciens noeuds et lignes (sauf la banque)
+        const elementsToRemove = viz.querySelectorAll('.network-node, .network-line');
+        elementsToRemove.forEach(el => el.remove());
+
         if(bank.classList.contains('visible')) {
             bank.classList.remove('visible');
             btn.innerText = "Montrer le Systeme Centralise";
             desc.innerText = "Dans un reseau decentralise, si un noeud tombe, les autres continuent.";
-            initNetwork();
+            initNetwork(false);
         } else {
-            viz.innerHTML = '';
-            viz.appendChild(bank);
             bank.classList.add('visible');
             btn.innerText = "Revenir au Reseau P2P";
             desc.innerText = "Dans un systeme centralise, si la banque tombe, tout s'effondre.";
@@ -605,16 +611,18 @@
         }
     }
 
-    function initNetwork() {
+    function initNetwork(clearAll = true) {
         const viz = document.getElementById('network-viz');
         if (!viz) return;
-        viz.innerHTML = '';
-        // Recreate central-bank element (don't fetch after clearing innerHTML)
-        const bank = document.createElement('div');
-        bank.className = 'central-entity';
-        bank.id = 'central-bank';
-        bank.textContent = 'BCE';
-        viz.appendChild(bank);
+
+        if (clearAll) {
+            viz.innerHTML = '';
+            const bank = document.createElement('div');
+            bank.className = 'central-entity';
+            bank.id = 'central-bank';
+            bank.textContent = 'BCE';
+            viz.appendChild(bank);
+        }
         
         const nodes = [];
         for(let i = 0; i < 15; i++) {
