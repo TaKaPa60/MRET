@@ -81,9 +81,9 @@
         .chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         .crypto-title { font-size: 1.2rem; font-weight: 800; font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 10px; }
         
-        .crypto-price { font-size: 1.8rem; font-weight: 900; color: var(--gold-light); margin-top: 5px; font-family: 'Orbitron', sans-serif; transition: color 0.3s; }
-        .price-flash-up { color: #00ff00 !important; text-shadow: 0 0 10px #00ff00; }
-        .price-flash-down { color: #ff3333 !important; text-shadow: 0 0 10px #ff3333; }
+        .crypto-price { font-size: 1.8rem; font-weight: 900; color: var(--gold-light); margin-top: 5px; font-family: 'Montserrat', sans-serif; }
+        .var-flash-up { box-shadow: 0 0 15px #00ff00; transition: box-shadow 0.3s; }
+        .var-flash-down { box-shadow: 0 0 15px #ff3333; transition: box-shadow 0.3s; }
 
         .crypto-var { padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; display: inline-block; }
         .bg-up { background: rgba(0, 255, 0, 0.1); color: #00ff00; border: 1px solid rgba(0, 255, 0, 0.3); }
@@ -233,7 +233,7 @@
 
     <div class="binance-sticky">
         <div style="font-weight: 700; font-size: 15px;">Optimisez vos gains : Tradez avec des <span style="color: var(--accent); text-shadow: 0 0 10px var(--accent-glow);">frais ultra-compétitifs</span> sur le marché</div>
-        <a href="https://www.binance.com/activity/referral-entry/CPA?ref=CPA_00HB8S5KUG" target="_blank" class="btn" style="text-decoration: none; display: inline-block;">S'inscrire sur Binance 🚀</a>
+        <a href="https://www.binance.com/activity/referral-entry/CPA?ref=CPA_00HB8S5KUG" target="_blank" class="btn btn-gold" style="text-decoration: none; display: inline-block;">S'inscrire sur Binance 🚀</a>
     </div>
 
     <script>
@@ -409,9 +409,17 @@
                 priceEl.innerText = `${lastPrice.toFixed(decimals)} ${crypto.currency}`;
                 
                 if(oldPrice > 0 && Math.abs(lastPrice - oldPrice) > 0.0001) {
-                    priceEl.classList.remove('price-flash-up', 'price-flash-down');
-                    void priceEl.offsetWidth;
-                    priceEl.classList.add(lastPrice > oldPrice ? 'price-flash-up' : 'price-flash-down');
+                    const varElFlash = document.getElementById(`var-${symbol}`);
+                    varElFlash.classList.remove('var-flash-up', 'var-flash-down');
+                    void varElFlash.offsetWidth;
+                    varElFlash.classList.add(lastPrice > oldPrice ? 'var-flash-up' : 'var-flash-down');
+                    
+                    // Enlever le flash après 1s
+                    setTimeout(() => {
+                        if (document.getElementById(`var-${symbol}`)) {
+                            document.getElementById(`var-${symbol}`).classList.remove('var-flash-up', 'var-flash-down');
+                        }
+                    }, 1000);
                 }
 
                 const varEl = document.getElementById(`var-${symbol}`);
