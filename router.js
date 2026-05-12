@@ -45,6 +45,17 @@ async function loadPage(url, isPopState = false) {
             
             const currentContent = document.getElementById('app-content');
             
+            // --- Swap page-specific <style> tags from <head> ---
+            // Remove previously injected page styles
+            document.querySelectorAll('style[data-spa-page]').forEach(s => s.remove());
+            // Inject new page's <style> tags (skip shared theme.css etc.)
+            doc.querySelectorAll('head style').forEach(style => {
+                const clone = document.createElement('style');
+                clone.setAttribute('data-spa-page', 'true');
+                clone.textContent = style.textContent;
+                document.head.appendChild(clone);
+            });
+
             // Appliquer une animation de sortie rapide
             currentContent.style.opacity = '0';
             currentContent.style.transform = 'translateY(10px)';
