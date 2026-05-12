@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.E.T Academy — Comment Fonctionne la Crypto</title>
+    <title>R.E.T Academy â€” Comment Fonctionne la Crypto</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="theme.css">
     <style>
@@ -448,288 +448,19 @@
 
 
 
-<script>
-// Particles
-const particles = document.getElementById('particles');
-for (let i = 0; i < 30; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.animationDelay = Math.random() * 15 + 's';
-    p.style.animationDuration = (10 + Math.random() * 10) + 's';
-    particles.appendChild(p);
-}
 
-// Nav
-function setActive(el) {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelectorAll('.pill').forEach(n => n.classList.remove('active'));
-    el.classList.add('active');
-}
 
-// Intersection observer for nav
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const id = entry.target.id;
-            document.querySelectorAll('.pill').forEach(p => {
-                p.classList.toggle('active', p.getAttribute('href') === '#' + id);
-            });
-            document.querySelectorAll('.nav-item').forEach(n => {
-                n.classList.toggle('active', n.getAttribute('href') === '#' + id);
-            });
-        }
-    });
-}, { threshold: 0.5 });
 
-document.querySelectorAll('.section').forEach(s => observer.observe(s));
 
-// Blockchain
-let blockCount = 3;
-function addBlock() {
-    const flow = document.getElementById('blockchain-flow');
-    const connector = document.createElement('div');
-    connector.className = 'block-connector';
-    connector.style.opacity = '0';
 
-    const block = document.createElement('div');
-    block.className = 'block-item';
-    const hash = '00000000' + Math.random().toString(16).substring(2, 10);
-    const prevHash = flow.lastElementChild.querySelector('.value')?.textContent || '0000000000000000000000000000000000000000000000000000000000000000';
 
-    block.innerHTML = `
-        <div class="block-header">
-            <span class="block-number">Bloc #${++blockCount}</span>
-            <span class="block-time">${new Date().toISOString().replace('T', ' ').substring(0, 19)}</span>
-        </div>
-        <div class="block-hash">
-            <div><span class="label">Hash      </span> <span class="value">${hash}...</span></div>
-            <div><span class="label">Prev      </span> <span class="prev">${prevHash.substring(0, 64)}</span></div>
-            <div><span class="label">Data      </span> <span style="color: var(--text-muted)">${Math.floor(Math.random() * 20 + 1)} transactions - Difficulty: ${(Math.random() * 70 + 1).toFixed(2)} T</span></div>
-        </div>
-    `;
-    block.style.opacity = '0';
-    block.style.transform = 'translateY(20px)';
-
-    flow.appendChild(connector);
-    flow.appendChild(block);
-
-    setTimeout(() => {
-        connector.style.transition = 'opacity 0.5s';
-        connector.style.opacity = '1';
-        block.style.transition = 'all 0.6s ease';
-        block.style.opacity = '1';
-        block.style.transform = 'translateY(0)';
-        block.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 50);
-}
-
-// Mining
-let mining = false;
-function startMining() {
-    if (mining) return;
-    mining = true;
-    const btn = document.getElementById('mine-btn');
-    const hashDisplay = document.getElementById('hash-display');
-    const nonceDisplay = document.getElementById('nonce-display');
-    const progress = document.getElementById('mine-progress');
-    const panel = document.getElementById('mine-panel');
-    const reward = document.getElementById('reward-badge');
-
-    btn.textContent = 'Minage en cours...';
-    btn.style.opacity = '0.6';
-    panel.classList.add('active');
-    reward.classList.remove('show');
-
-    let nonce = 0;
-    const target = '0000';
-
-    const interval = setInterval(() => {
-        nonce++;
-        nonceDisplay.textContent = 'Nonce: ' + nonce;
-        progress.style.width = (nonce % 100) + '%';
-
-        const randomHex = Math.random().toString(16).substring(2, 10);
-        hashDisplay.innerHTML = '<span class="target">' + target + '</span><span class="changing">' + randomHex + '</span>';
-
-        if (randomHex.startsWith('0000') || nonce > 150) {
-            clearInterval(interval);
-            hashDisplay.innerHTML = '<span class="target">' + target + '</span><span class="changing" style="color: var(--green);">' + randomHex + '</span>';
-            nonceDisplay.textContent = 'NONCE TROUVE: ' + nonce;
-            nonceDisplay.style.color = 'var(--green)';
-            progress.style.width = '100%';
-            panel.classList.remove('active');
-            reward.classList.add('show');
-            btn.textContent = 'Lancer la Resolution';
-            btn.style.opacity = '1';
-            mining = false;
-
-            setTimeout(() => {
-                nonceDisplay.style.color = 'var(--text-dim)';
-                progress.style.width = '0%';
-                hashDisplay.innerHTML = '<span class="target">0000</span><span class="changing">a3f7b2d9</span>';
-                reward.classList.remove('show');
-            }, 4000);
-        }
-    }, 40);
-}
-
-// Transaction
-let txInProgress = false;
-function sendTx() {
-    if (txInProgress) return;
-    txInProgress = true;
-
-    const aliceBal = document.getElementById('balance-alice');
-    const bobBal = document.getElementById('balance-bob');
-    const aliceWallet = document.getElementById('wallet-alice');
-    const bobWallet = document.getElementById('wallet-bob');
-    const status = document.getElementById('tx-status');
-    const sigAlice = document.getElementById('sig-alice');
-    const sigBob = document.getElementById('sig-bob');
-    const btn = document.getElementById('tx-btn');
-
-    if (parseFloat(aliceBal.textContent) < 1) {
-        alert('Solde insuffisant !');
-        txInProgress = false;
-        return;
-    }
-
-    btn.textContent = 'Signature en cours...';
-    btn.style.opacity = '0.6';
-
-    // Step 1: Alice signs
-    setTimeout(() => {
-        aliceWallet.classList.add('sending');
-        sigAlice.classList.add('visible');
-        status.textContent = 'SIGNEE';
-        status.style.color = 'var(--purple-light)';
-
-        // Step 2: Broadcast
-        setTimeout(() => {
-            status.textContent = 'DIFFUSION';
-
-            // Step 3: Bob receives
-            setTimeout(() => {
-                aliceWallet.classList.remove('sending');
-                bobWallet.classList.add('receiving');
-
-                const newAlice = (parseFloat(aliceBal.textContent) - 1).toFixed(4);
-                const newBob = (parseFloat(bobBal.textContent) + 1).toFixed(4);
-                aliceBal.textContent = newAlice + ' BTC';
-                bobBal.textContent = newBob + ' BTC';
-
-                sigBob.classList.add('visible');
-                status.textContent = 'CONFIRMEE';
-                status.style.color = 'var(--green)';
-
-                setTimeout(() => {
-                    bobWallet.classList.remove('receiving');
-                    sigAlice.classList.remove('visible');
-                    sigBob.classList.remove('visible');
-                    status.textContent = 'EN ATTENTE';
-                    status.style.color = 'var(--purple-light)';
-                    btn.textContent = 'Envoyer 1.0000 BTC';
-                    btn.style.opacity = '1';
-                    txInProgress = false;
-                }, 3000);
-            }, 800);
-        }, 800);
-    }, 400);
-}
-
-// Network visualization
-function initNetwork() {
-    const container = document.getElementById('network-viz');
-    const nodeCount = 10;
-    const radius = 140;
-    const centerX = container.offsetWidth / 2;
-    const centerY = container.offsetHeight / 2;
-
-    const nodes = [];
-
-    for (let i = 0; i < nodeCount; i++) {
-        const angle = (i / nodeCount) * Math.PI * 2 - Math.PI / 2;
-        const x = centerX + Math.cos(angle) * radius - 25;
-        const y = centerY + Math.sin(angle) * radius - 25;
-
-        const node = document.createElement('div');
-        node.className = 'network-node';
-        node.textContent = 'N' + (i + 1);
-        node.style.left = x + 'px';
-        node.style.top = y + 'px';
-        node.style.animationDelay = (i * 0.2) + 's';
-
-        if (i === 0) node.classList.add('active');
-
-        container.appendChild(node);
-        nodes.push({ el: node, x: x + 25, y: y + 25 });
-    }
-
-    // Draw connections
-    for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-            const dx = nodes[j].x - nodes[i].x;
-            const dy = nodes[j].y - nodes[i].y;
-            const length = Math.sqrt(dx * dx + dy * dy);
-            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-
-            const line = document.createElement('div');
-            line.className = 'network-line';
-            if (Math.random() > 0.5) line.classList.add('active');
-            line.style.width = length + 'px';
-            line.style.left = nodes[i].x + 'px';
-            line.style.top = nodes[i].y + 'px';
-            line.style.transform = 'rotate(' + angle + 'deg)';
-            line.style.animationDelay = (Math.random() * 2) + 's';
-
-            container.insertBefore(line, container.firstChild);
-        }
-    }
-}
-
-let centralized = false;
-function toggleCentralized() {
-    const bank = document.getElementById('central-bank');
-    const btn = document.getElementById('toggle-central');
-    const desc = document.getElementById('network-desc');
-    const nodes = document.querySelectorAll('.network-node');
-
-    centralized = !centralized;
-
-    if (centralized) {
-        bank.classList.add('visible');
-        btn.textContent = 'Montrer le Reseau Decentralise';
-        desc.innerHTML = 'Avec une banque centrale, un seul point de defaillance. <span style="color: var(--red)">Si elle tombe, tout le systeme s\'effondre.</span>';
-        nodes.forEach(n => {
-            n.style.opacity = '0.3';
-            n.style.transform = 'scale(0.8)';
-        });
-    } else {
-        bank.classList.remove('visible');
-        btn.textContent = 'Montrer le Systeme Centralise';
-        desc.innerHTML = 'Dans un reseau decentralise, si un noeud tombe, les autres continuent. <span style="color: var(--green)">Pas de point unique de defaillance.</span>';
-        nodes.forEach(n => {
-            n.style.opacity = '1';
-            n.style.transform = 'scale(1)';
-        });
-    }
-}
-
-window.addEventListener('load', initNetwork);
-window.addEventListener('resize', () => {
-    document.getElementById('network-viz').innerHTML = '<div class="central-entity" id="central-bank">BCE</div>';
-    initNetwork();
-});
-</script>
-
-</body>
 <footer style="margin-top: 100px;">
     <img src="RETtransp.jpg" alt="Logo R.E.T" style="max-width: 150px; filter: drop-shadow(0 0 5px var(--gold-main));">
     <p style="color: #777; margin-top: 1.5rem; font-size: 0.9rem;">© 2026 Mouvement R.E.T. Tous droits réservés.</p>
 </footer>
 
 <script>
+(function() {
     // Particules
     const particlesContainer = document.getElementById('particles');
     for(let i = 0; i < 30; i++) {
@@ -741,7 +472,7 @@ window.addEventListener('resize', () => {
         particlesContainer.appendChild(p);
     }
 
-    // Gestion de l'état actif nav
+    // Gestion de l'Ã©tat actif nav
     function setActive(el) {
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.querySelectorAll('.pill').forEach(i => i.classList.remove('active'));
@@ -912,20 +643,27 @@ window.addEventListener('resize', () => {
     }
 
     initNetwork();
+
+    // Expose to window for onclick attributes
+    window.addBlock = addBlock;
+    window.startMining = startMining;
+    window.sendTx = sendTx;
+    window.toggleCentralized = toggleCentralized;
+})();
 </script>
 </main>
 
 <div class="radio-player-widget collapsed" id="radioWidget" onclick="toggleRadioCollapse(event)">
-    <div class="radio-toggle" id="radioToggleBtn" onclick="toggleRadioCollapse(event)">✖</div>
+    <div class="radio-toggle" id="radioToggleBtn" onclick="toggleRadioCollapse(event)">âœ–</div>
     <div class="radio-content" id="radioContent">
-        <div class="radio-btn-icon" id="playIcon" onclick="toggleRadio(event)">▶</div>
+        <div class="radio-btn-icon" id="playIcon" onclick="toggleRadio(event)">â–¶</div>
         <div class="radio-info" onclick="toggleRadio(event)">
             <span class="radio-title">R.E.T Radio</span>
             <span class="radio-status" id="radioStatus">En pause</span>
         </div>
         
         <div class="volume-container" id="volumeContainer">
-            <span class="volume-icon" id="muteIcon" onclick="toggleMute(event)">🔊</span>
+            <span class="volume-icon" id="muteIcon" onclick="toggleMute(event)">ðŸ”Š</span>
             <input type="range" id="volSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
         </div>
     </div>
