@@ -1,3 +1,10 @@
+// Mark the initial page's own <style> tags so they get cleaned up on SPA navigation
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('head style:not([data-spa-page])').forEach(s => {
+        s.setAttribute('data-spa-page', 'true');
+    });
+});
+
 document.addEventListener('click', e => {
     const link = e.target.closest('a');
     if (!link) return;
