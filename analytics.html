@@ -110,6 +110,9 @@
         
         .btn-expand { background: rgba(255, 0, 255, 0.1); border: 1px solid rgba(255, 0, 255, 0.3); color: var(--neon-pink); border-radius: 6px; padding: 4px 8px; cursor: pointer; transition: 0.3s; height: 32px; display: flex; align-items: center; justify-content: center; }
         .btn-expand:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
+        
+        .crypto-symbol-tag { font-size: 12px; color: var(--text-dim); font-weight: 600; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 6px; }
+        .card-actions { display: flex; align-items: center; gap: 10px; justify-content: space-between; margin-bottom: 15px; }
 
         /* Timeframe Responsive Menu */
         .chart-controls-wrapper { position: relative; }
@@ -373,6 +376,7 @@
         var modalChart = null; 
         var lastPrices = {};
         var marketData = {};
+        var viewMode = localStorage.getItem('terminalViewMode') || 'grid';
 
         function initApp() {
             const container = document.getElementById('chartsContainer');
@@ -391,11 +395,34 @@
                 filterBar.appendChild(btn);
             });
             const dashboardGrid = document.querySelector('.dashboard-grid');
+            
+            // Add view controls to filter bar
+            const viewControls = document.createElement('div');
+            viewControls.className = 'view-controls';
+            viewControls.innerHTML = `
+                <button class="view-btn ${viewMode === 'grid' ? 'active' : ''}" onclick="setViewMode('grid')" title="Grille">⊞</button>
+                <button class="view-btn ${viewMode === 'list' ? 'active' : ''}" onclick="setViewMode('list')" title="Liste">≡</button>
+            `;
+            filterBar.appendChild(viewControls);
+
             if (dashboardGrid) {
                 dashboardGrid.parentNode.insertBefore(filterBar, dashboardGrid);
             } else {
                 container.parentNode.insertBefore(filterBar, container);
             }
+
+            // Add List Header inside the container (will be hidden/shown via CSS)
+            const listHeader = document.createElement('div');
+            listHeader.className = 'list-header';
+            listHeader.innerHTML = `
+                <div>Crypto</div>
+                <div>Prix</div>
+                <div class="hide-mobile">Variation</div>
+                <div class="hide-mobile">Bas 24H</div>
+                <div class="hide-mobile">Haut 24H</div>
+                <div style="text-align:right">Action</div>
+            `;
+            container.prepend(listHeader);
 
             cryptoConfig.forEach((crypto, index) => {
                 const isFavorite = favorites.includes(crypto.symbol);
@@ -403,32 +430,35 @@
                 alertSelect.innerHTML += optionHTML;
                 aiSelect.innerHTML += optionHTML;
                 
-                // Injection dans la GRILLE (2 colonnes via CSS)
                 container.innerHTML += `
                     <div class="glass-card" id="card-${crypto.symbol}" style="animation-delay: ${index * 0.08}s">
-                        <div class="chart-header">
-                            <div>
-                                <div class="crypto-title">
-                                    <span class="favorite-star ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${crypto.symbol}')" id="fav-${crypto.symbol}">★</span>
-                                    ${crypto.name} 
-                                    <span style="font-size: 12px; color: var(--text-dim); font-weight: 600; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 6px;">${crypto.symbol}</span>
-                                </div>
-                                <div class="crypto-price" id="price-${crypto.symbol}" data-last-price="0">-- ${crypto.currency}</div>
-                            </div>
-                            <div class="header-actions">
-                                <div class="chart-controls-wrapper">
-                                    <button class="time-btn-mobile-toggle" onclick="toggleTimeframeMenu('${crypto.symbol}')" id="tf-toggle-${crypto.symbol}">1J</button>
-                                    <div class="chart-controls" id="controls-${crypto.symbol}">
-                                        <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1H')">1H</button>
-                                        <button class="time-btn active" onclick="changeTimeframe('${crypto.symbol}', '1J')">1J</button>
-                                        <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1M')">1M</button>
-                                        <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '6M')">6M</button>
-                                    </div>
-                                </div>
-                                <button class="btn-expand" onclick="openModal('${crypto.symbol}')">⛶</button>
-                            </div>
+                        <div class="crypto-title">
+                            <span class="favorite-star ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${crypto.symbol}')" id="fav-${crypto.symbol}">★</span>
+                            ${crypto.name} 
+                            <span class="crypto-symbol-tag">${crypto.symbol}</span>
                         </div>
-                        <div class="crypto-var bg-up" id="var-${crypto.symbol}" style="display:inline-block; margin-bottom: 10px;">--%</div>
+                        
+                        <div class="crypto-price" id="price-${crypto.symbol}" data-last-price="0">-- ${crypto.currency}</div>
+                        
+                        <div class="crypto-var bg-up" id="var-${crypto.symbol}">--%</div>
+                        
+                        <div class="list-mode-data hide-mobile" id="list-var-${crypto.symbol}">--%</div>
+                        <div class="list-mode-data hide-mobile" id="list-low-${crypto.symbol}">--</div>
+                        <div class="list-mode-data hide-mobile" id="list-high-${crypto.symbol}">--</div>
+                        
+                        <div class="card-actions">
+                            <div class="chart-controls-wrapper">
+                                <button class="time-btn-mobile-toggle" onclick="toggleTimeframeMenu('${crypto.symbol}')" id="tf-toggle-${crypto.symbol}">1J</button>
+                                <div class="chart-controls" id="controls-${crypto.symbol}">
+                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1H')">1H</button>
+                                    <button class="time-btn active" onclick="changeTimeframe('${crypto.symbol}', '1J')">1J</button>
+                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1M')">1M</button>
+                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '6M')">6M</button>
+                                </div>
+                            </div>
+                            <button class="btn-expand" onclick="openModal('${crypto.symbol}')">⛶</button>
+                        </div>
+
                         <div class="chart-container" id="chart-wrap-${crypto.symbol}">
                             <div class="loading-state" id="loading-${crypto.symbol}">
                                 <div class="spinner"></div> Chargement...
@@ -463,6 +493,33 @@
                     updateTicker();
                 }
             }, 30000);
+
+            applyViewMode();
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            localStorage.setItem('terminalViewMode', mode);
+            
+            // Update buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', (btn.title === 'Grille' && mode === 'grid') || (btn.title === 'Liste' && mode === 'list'));
+            });
+            
+            applyViewMode();
+        }
+
+        function applyViewMode() {
+            const container = document.getElementById('chartsContainer');
+            const app = document.getElementById('app-content');
+            
+            if (viewMode === 'list') {
+                container.classList.add('list-mode');
+                app.classList.add('list-mode-active');
+            } else {
+                container.classList.remove('list-mode');
+                app.classList.remove('list-mode-active');
+            }
         }
 
         function updateTime() {
@@ -565,6 +622,17 @@
                 const varEl = document.getElementById(`var-${symbol}`);
                 varEl.innerText = `${variation >= 0 ? '▲ +' : '▼ '}${variation}%`;
                 varEl.className = `crypto-var ${variation >= 0 ? 'bg-up' : 'bg-down'}`;
+
+                // Update List View Elements
+                const listVar = document.getElementById(`list-var-${symbol}`);
+                if (listVar) {
+                    listVar.innerText = `${variation >= 0 ? '+' : ''}${variation}%`;
+                    listVar.style.color = variation >= 0 ? '#00ff00' : '#ff3333';
+                }
+                const listLow = document.getElementById(`list-low-${symbol}`);
+                if (listLow) listLow.innerText = `${periodLow} ${crypto.currency}`;
+                const listHigh = document.getElementById(`list-high-${symbol}`);
+                if (listHigh) listHigh.innerText = `${periodHigh} ${crypto.currency}`;
 
                 charts[symbol].data.labels = labels;
                 charts[symbol].data.datasets[0].data = prices;
