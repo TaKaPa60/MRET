@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Monitor Pro | Terminal R.E.T</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="theme.css">
     <style>
@@ -139,8 +136,7 @@
         .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite; }
         @keyframes shake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-8px, 0, 0); } 40%, 60% { transform: translate3d(8px, 0, 0); } }
 
-        .binance-sticky { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(15px); border-top: 1px solid var(--gold-main); padding: 10px 20px; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 1000; box-shadow: 0 -10px 40px rgba(0,0,0,0.8); height: 70px; }
-        @media (max-width: 768px) { .binance-sticky { flex-direction: column; text-align: center; gap: 10px; } }
+        .binance-sticky { display: none; } /* Fallback if HTML is present but we want to hide it, though we use it in theme.css */
     </style>
 </head>
 <body>

@@ -113,6 +113,12 @@ async function loadPage(url, isPopState = false) {
 
                 currentContent.style.opacity = '1';
                 currentContent.style.transform = 'translateY(0)';
+
+                // Clear transform after animation to allow position: fixed children to work
+                setTimeout(() => {
+                    currentContent.style.transform = '';
+                    currentContent.style.transition = '';
+                }, 400);
             }, 300);
             
         } else {
