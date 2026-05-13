@@ -288,29 +288,31 @@
     <section id="tech" style="background-color: #050505;">
         <h2 class="section-title gold-text">Sous le Capot</h2>
         <div class="tech-specs">
-            <div class="spec-item">
+            <div class="spec-card">
                 <h4>API Binance</h4>
                 <p>Mise à jour toutes les 10 secondes</p>
             </div>
-            <div class="spec-item">
+            <div class="spec-card">
                 <h4>Devise Fiat</h4>
                 <p>Euros (€) - Conversion USDT auto</p>
             </div>
-            <div class="spec-item" style="min-width: 250px;">
+            <div class="spec-card">
                 <h4>Frais de Plateforme</h4>
-                <div class="exchange-selector" id="feeSelector">
-                    <button class="exchange-btn active" data-fee="0.10" onclick="updateFee(this, 'Binance')">Binance</button>
-                    <button class="exchange-btn" data-fee="0.16" onclick="updateFee(this, 'Kraken Pro')">Kraken 0.16%</button>
-                    <button class="exchange-btn" data-fee="0.26" onclick="updateFee(this, 'Kraken')">Kraken 0.26%</button>
-                    <button class="exchange-btn" data-fee="0.25" onclick="updateFee(this, 'Bitpanda Fusion')">Bitpanda Fusion</button>
-                    <button class="exchange-btn" data-fee="1.49" onclick="updateFee(this, 'Bitpanda')">Bitpanda</button>
-                    <button class="exchange-btn" data-fee="0.99" onclick="updateFee(this, 'Revolut Premium')">Revolut Premium</button>
-                    <button class="exchange-btn" data-fee="1.49" onclick="updateFee(this, 'Revolut')">Revolut</button>
+                <div style="margin: 1.5rem 0;">
+                    <select class="premium-select" id="feeSelect" onchange="updateFeeSelect(this)">
+                        <option value="0.10" data-platform="Binance">Binance (0.10%)</option>
+                        <option value="0.16" data-platform="Kraken Pro">Kraken Pro (0.16%)</option>
+                        <option value="0.26" data-platform="Kraken">Kraken (0.26%)</option>
+                        <option value="0.25" data-platform="Bitpanda Fusion">Bitpanda Fusion (0.25%)</option>
+                        <option value="1.49" data-platform="Bitpanda">Bitpanda (1.49%)</option>
+                        <option value="0.99" data-platform="Revolut Premium">Revolut Premium (0.99%)</option>
+                        <option value="1.49" data-platform="Revolut">Revolut (1.49%)</option>
+                    </select>
                 </div>
                 <p class="fee-display"><span id="currentFee">0.10</span>%</p>
-                <p id="platformName" style="font-size: 0.8rem; color: #777;">Commission standard Binance</p>
+                <p id="platformName" style="font-size: 0.7rem; color: #777;">Commission Binance</p>
             </div>
-            <div class="spec-item">
+            <div class="spec-card">
                 <h4>Mode Immersif</h4>
                 <p>Expérience Premium Plein Écran</p>
             </div>
@@ -431,15 +433,13 @@
             })();
 
             // Fee Selector Logic
-            function updateFee(btn, platform) {
-                // Update buttons
-                document.querySelectorAll('.exchange-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+            function updateFeeSelect(select) {
+                const option = select.options[select.selectedIndex];
+                const fee = select.value;
+                const platform = option.getAttribute('data-platform');
 
-                // Update text
-                const fee = btn.getAttribute('data-fee');
                 document.getElementById('currentFee').innerText = fee;
-                document.getElementById('platformName').innerText = `Commission standard ${platform}`;
+                document.getElementById('platformName').innerText = `Commission ${platform}`;
             }
         </script>
     </main>

@@ -293,6 +293,37 @@ textarea {
     line-height: 1.5;
 }
 
+/* Premium Select Styling */
+.premium-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--gold-light);
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    width: 100%;
+    max-width: 280px;
+    transition: var(--transition-fast);
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffd700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 15px;
+}
+
+.premium-select:hover, .premium-select:focus {
+    border-color: var(--gold-main);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.premium-select option {
+    background: #111;
+    color: #fff;
+}
+
 /* --- Global Radio Player Widget --- */
 .radio-player-widget {
     position: fixed;
@@ -521,97 +552,50 @@ textarea {
     }
 }
 
-/* Exchange Selector */
-.exchange-selector {
+/* Tech Specs Redesign */
+.tech-specs {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin: 2rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
 }
 
-.exchange-btn {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 215, 0, 0.1);
-    color: #94a3b8;
-    padding: 15px 10px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+.spec-card {
+    background: rgba(15, 15, 15, 0.6);
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: var(--transition-fast);
 }
 
-.exchange-btn::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 20%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: rotate(30deg);
-    transition: 0s;
-}
-
-.exchange-btn:hover::after {
-    left: 140%;
-    transition: 0.6s;
-}
-
-.exchange-btn:hover {
-    border-color: var(--neon-pink);
-    color: #fff;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
-}
-
-.exchange-btn.active {
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 0, 255, 0.05));
+.spec-card:hover {
     border-color: var(--gold-main);
-    color: var(--gold-light);
-    box-shadow: 
-        0 0 25px rgba(255, 215, 0, 0.2),
-        inset 0 0 15px rgba(255, 215, 0, 0.1);
-    transform: scale(1.02);
+    background: rgba(255, 215, 0, 0.05);
 }
 
-.exchange-btn.active::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    background: var(--gold-main);
-    border-radius: 50%;
-    box-shadow: 0 0 12px var(--gold-main);
-    animation: pulse-gold 2s infinite;
+.spec-card h4 {
+    color: var(--gold-main);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
 }
 
-@keyframes pulse-gold {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
+.spec-card p {
+    color: #ccc;
+    font-size: 0.9rem;
 }
 
 .fee-display {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 900;
     color: var(--neon-pink);
     text-shadow: 0 0 15px var(--neon-pink);
-    margin: 15px 0 5px 0;
+    margin: 1rem 0 0.5rem 0;
     font-family: 'Orbitron', sans-serif;
 }
 
-@media (min-width: 480px) {
-    .exchange-selector {
+@media (min-width: 1024px) {
+    .tech-specs {
         grid-template-columns: repeat(4, 1fr);
     }
 }
