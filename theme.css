@@ -520,3 +520,98 @@ textarea {
         padding: 15px 20px;
     }
 }
+
+/* Exchange Selector */
+.exchange-selector {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 2rem 0;
+}
+
+.exchange-btn {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    color: #94a3b8;
+    padding: 15px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.exchange-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(30deg);
+    transition: 0s;
+}
+
+.exchange-btn:hover::after {
+    left: 140%;
+    transition: 0.6s;
+}
+
+.exchange-btn:hover {
+    border-color: var(--neon-pink);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+}
+
+.exchange-btn.active {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 0, 255, 0.05));
+    border-color: var(--gold-main);
+    color: var(--gold-light);
+    box-shadow: 
+        0 0 25px rgba(255, 215, 0, 0.2),
+        inset 0 0 15px rgba(255, 215, 0, 0.1);
+    transform: scale(1.02);
+}
+
+.exchange-btn.active::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--gold-main);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--gold-main);
+    animation: pulse-gold 2s infinite;
+}
+
+@keyframes pulse-gold {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.fee-display {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink);
+    margin: 15px 0 5px 0;
+    font-family: 'Orbitron', sans-serif;
+}
+
+@media (min-width: 480px) {
+    .exchange-selector {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
