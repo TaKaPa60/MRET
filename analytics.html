@@ -92,8 +92,47 @@
         .time-btn.active { background: rgba(255, 215, 0, 0.15); color: var(--gold-main); box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.2); }
         .time-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.1); }
         
-        .btn-expand { background: rgba(255, 0, 255, 0.1); border: 1px solid rgba(255, 0, 255, 0.3); color: var(--neon-pink); border-radius: 6px; padding: 4px 8px; cursor: pointer; transition: 0.3s; }
+        .btn-expand { background: rgba(255, 0, 255, 0.1); border: 1px solid rgba(255, 0, 255, 0.3); color: var(--neon-pink); border-radius: 6px; padding: 4px 8px; cursor: pointer; transition: 0.3s; height: 32px; display: flex; align-items: center; justify-content: center; }
         .btn-expand:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
+
+        /* Timeframe Responsive Menu */
+        .chart-controls-wrapper { position: relative; }
+        .time-btn-mobile-toggle { 
+            display: none; 
+            background: rgba(0,0,0,0.4); 
+            border: 1px solid rgba(255,215,0,0.3); 
+            color: var(--gold-main); 
+            padding: 4px 12px; 
+            border-radius: 8px; 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            cursor: pointer;
+            height: 32px;
+            align-items: center;
+            gap: 5px;
+        }
+        .time-btn-mobile-toggle::after { content: '▾'; font-size: 0.7rem; }
+
+        @media (max-width: 768px) {
+            .time-btn-mobile-toggle { display: flex; }
+            .chart-controls { 
+                position: absolute; 
+                top: calc(100% + 5px); 
+                right: 0; 
+                flex-direction: column; 
+                background: rgba(10, 10, 10, 0.95); 
+                backdrop-filter: blur(10px); 
+                border: 1px solid var(--gold-main); 
+                z-index: 100; 
+                padding: 5px; 
+                display: none; /* Controlled by JS */
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+                min-width: 60px;
+            }
+            .chart-controls.show { display: flex; }
+            .time-btn { width: 100%; text-align: center; padding: 8px; }
+        }
 
         .chart-container { height: 200px; width: 100%; position: relative; }
         
@@ -135,6 +174,58 @@
         
         .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite; }
         @keyframes shake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-8px, 0, 0); } 40%, 60% { transform: translate3d(8px, 0, 0); } }
+
+        /* Filtering & Favorites */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: #94a3b8;
+            padding: 8px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .filter-btn.active {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--gold-main);
+            border-color: var(--gold-main);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        .favorite-star {
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.2);
+            transition: 0.3s;
+            user-select: none;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1;
+        }
+        .favorite-star.active {
+            color: var(--gold-main);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        .favorite-star:hover {
+            transform: scale(1.2);
+            color: var(--gold-light);
+        }
 
     </style>
 </head>
@@ -237,7 +328,11 @@
             { symbol: 'BTCEUR', name: 'Bitcoin', currency: '€' },
             { symbol: 'ETHEUR', name: 'Ethereum', currency: '€' },
             { symbol: 'SOLEUR', name: 'Solana', currency: '€' },
-            { symbol: 'DOTEUR', name: 'Polkadot', currency: '€' },      // ← DOTEUR BIEN PRÉSENT
+            { symbol: 'DOTEUR', name: 'Polkadot', currency: '€' },
+            { symbol: 'TRXEUR', name: 'Tron', currency: '€' },
+            { symbol: 'POLEUR', name: 'Polygon', currency: '€' },
+            { symbol: 'AVAXEUR', name: 'Avalanche', currency: '€' },
+            { symbol: 'ADAEUR', name: 'Cardano', currency: '€' },
             { symbol: 'ENAUSDT', name: 'Ethena', currency: '$' },
             { symbol: 'TONUSDT', name: 'Toncoin', currency: '$' },
             { symbol: 'ATOMEUR', name: 'Cosmos', currency: '€' }
@@ -252,6 +347,8 @@
 
         var charts = {}; 
         var alerts = JSON.parse(localStorage.getItem('terminalAlerts')) || [];
+        var favorites = JSON.parse(localStorage.getItem('terminalFavorites')) || [];
+        var activeFilter = localStorage.getItem('terminalFilter') || 'Tout';
         var alarmActive = false;
         var modalChart = null; 
         var lastPrices = {};
@@ -262,7 +359,21 @@
             const alertSelect = document.getElementById('alertSymbol');
             const aiSelect = document.getElementById('aiSymbol');
             
+            // Add filter bar
+            const filterBar = document.createElement('div');
+            filterBar.className = 'filter-bar';
+            const filters = ['Tout', 'Favoris', 'EUR', 'USDS'];
+            filters.forEach(f => {
+                const btn = document.createElement('button');
+                btn.className = `filter-btn ${activeFilter === f ? 'active' : ''}`;
+                btn.innerText = f;
+                btn.onclick = () => setFilter(f);
+                filterBar.appendChild(btn);
+            });
+            container.parentNode.insertBefore(filterBar, container);
+
             cryptoConfig.forEach((crypto, index) => {
+                const isFavorite = favorites.includes(crypto.symbol);
                 const optionHTML = `<option value="${crypto.symbol}">${crypto.name} (${crypto.currency})</option>`;
                 alertSelect.innerHTML += optionHTML;
                 aiSelect.innerHTML += optionHTML;
@@ -273,17 +384,21 @@
                         <div class="chart-header">
                             <div>
                                 <div class="crypto-title">
+                                    <span class="favorite-star ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${crypto.symbol}')" id="fav-${crypto.symbol}">★</span>
                                     ${crypto.name} 
                                     <span style="font-size: 12px; color: var(--text-dim); font-weight: 600; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 6px;">${crypto.symbol}</span>
                                 </div>
                                 <div class="crypto-price" id="price-${crypto.symbol}" data-last-price="0">-- ${crypto.currency}</div>
                             </div>
                             <div class="header-actions">
-                                <div class="chart-controls" id="controls-${crypto.symbol}">
-                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1H')">1H</button>
-                                    <button class="time-btn active" onclick="changeTimeframe('${crypto.symbol}', '1J')">1J</button>
-                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1M')">1M</button>
-                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '6M')">6M</button>
+                                <div class="chart-controls-wrapper">
+                                    <button class="time-btn-mobile-toggle" onclick="toggleTimeframeMenu('${crypto.symbol}')" id="tf-toggle-${crypto.symbol}">1J</button>
+                                    <div class="chart-controls" id="controls-${crypto.symbol}">
+                                        <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1H')">1H</button>
+                                        <button class="time-btn active" onclick="changeTimeframe('${crypto.symbol}', '1J')">1J</button>
+                                        <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1M')">1M</button>
+                                        <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '6M')">6M</button>
+                                    </div>
                                 </div>
                                 <button class="btn-expand" onclick="openModal('${crypto.symbol}')">⛶</button>
                             </div>
@@ -311,6 +426,7 @@
 
             renderAlerts();
             updateTicker();
+            applyFilters();
             setInterval(updateTime, 1000);
             
             setInterval(() => {
@@ -448,9 +564,41 @@
         function changeTimeframe(symbol, tfKey) {
             const buttons = document.querySelectorAll(`#controls-${symbol} .time-btn`);
             buttons.forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            
+            // Handle if called via click event or direct call
+            const target = event ? event.target : [...buttons].find(b => b.innerText === tfKey);
+            if (target) target.classList.add('active');
+            
+            // Update mobile toggle text
+            const toggle = document.getElementById(`tf-toggle-${symbol}`);
+            if (toggle) toggle.innerText = tfKey;
+
+            // Close menu on mobile
+            const controls = document.getElementById(`controls-${symbol}`);
+            if (controls) controls.classList.remove('show');
+
             fetchChartData(symbol, tfKey);
         }
+
+        function toggleTimeframeMenu(symbol) {
+            // Close other open menus first
+            document.querySelectorAll('.chart-controls.show').forEach(el => {
+                if (el.id !== `controls-${symbol}`) el.classList.remove('show');
+            });
+            
+            const controls = document.getElementById(`controls-${symbol}`);
+            if (controls) controls.classList.toggle('show');
+            
+            // Prevent event from bubbling to document
+            if (event) event.stopPropagation();
+        }
+
+        // Close menus when clicking outside
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.chart-controls.show').forEach(el => {
+                el.classList.remove('show');
+            });
+        });
 
         async function updateTicker() {
             const track = document.getElementById('tickerTrack');
@@ -529,6 +677,58 @@
 
         function closeModal() {
             document.getElementById('chartModal').style.display = 'none';
+        }
+
+        // ==================== FILTRES & FAVORIS ====================
+
+        function setFilter(filter) {
+            activeFilter = filter;
+            localStorage.setItem('terminalFilter', filter);
+            
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === filter);
+            });
+            
+            applyFilters();
+        }
+
+        function toggleFavorite(symbol) {
+            const index = favorites.indexOf(symbol);
+            if (index === -1) {
+                favorites.push(symbol);
+            } else {
+                favorites.splice(index, 1);
+            }
+            localStorage.setItem('terminalFavorites', JSON.stringify(favorites));
+            
+            // Update star UI
+            const star = document.getElementById(`fav-${symbol}`);
+            if (star) star.classList.toggle('active', favorites.includes(symbol));
+            
+            // If we are in favorites filter, re-apply filters
+            if (activeFilter === 'Favoris') {
+                applyFilters();
+            }
+        }
+
+        function applyFilters() {
+            cryptoConfig.forEach(crypto => {
+                const card = document.getElementById(`card-${crypto.symbol}`);
+                if (!card) return;
+                
+                let visible = true;
+                
+                if (activeFilter === 'Favoris') {
+                    visible = favorites.includes(crypto.symbol);
+                } else if (activeFilter === 'EUR') {
+                    visible = crypto.symbol.endsWith('EUR');
+                } else if (activeFilter === 'USDS') {
+                    visible = crypto.symbol.endsWith('USDT') || crypto.symbol.endsWith('USDS');
+                }
+                
+                card.style.display = visible ? 'block' : 'none';
+            });
         }
 
         // ==================== ANALYSE IA ====================
