@@ -178,10 +178,14 @@
         /* Filtering & Favorites */
         .filter-bar {
             display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 15px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
         }
         .filter-btn {
             background: rgba(255, 255, 255, 0.05);
@@ -370,7 +374,12 @@
                 btn.onclick = () => setFilter(f);
                 filterBar.appendChild(btn);
             });
-            container.parentNode.insertBefore(filterBar, container);
+            const dashboardGrid = document.querySelector('.dashboard-grid');
+            if (dashboardGrid) {
+                dashboardGrid.parentNode.insertBefore(filterBar, dashboardGrid);
+            } else {
+                container.parentNode.insertBefore(filterBar, container);
+            }
 
             cryptoConfig.forEach((crypto, index) => {
                 const isFavorite = favorites.includes(crypto.symbol);
