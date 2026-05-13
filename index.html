@@ -7,7 +7,7 @@
 	<link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     
-    <title>Mouvement R.E.T - Simulateur de Trading Crypto (Riche en Tabarnak)</title>
+    <title>Mouvement R.E.T - Sim Trading Crypto (Riche en Tabarnak)</title>
     <meta name="description" content="Deviens Riche en Tabarnak sans risquer ton loyer. R.E.T CryptoSim est le simulateur ultime pour s'entraîner au trading de cryptos (BTC, ETH, SOL) avec les vrais prix Binance en temps réel.">
     <meta name="keywords" content="R.E.T CryptoSim, simulateur crypto, simulation trading, prix binance temps réel, apprendre trading crypto, riche en tabarnak, portefeuille crypto virtuel">
     <meta name="author" content="Mouvement R.E.T">
@@ -244,11 +244,11 @@
             <div class="features-grid">
                 <div class="card">
                     <h3>Marché (Market)</h3>
-                    <p>Ton tableau de bord temps réel. Suis les cours du <strong>BTC, ETH, SOL, ENA</strong> et <strong>DOT</strong> comme un pro.</p>
+                    <p>Ton tableau de bord temps réel. Suis les cours du <strong>BTC, ETH, SOL, ENA, DOT, TRX, POL, AVAX, ADA</strong>... d'autres cryptos disponible !</p>
                 </div>
                 <div class="card">
                     <h3>Trade</h3>
-                    <p>Achat/Vente au prix du marché avec des conditions réalistes (commission <strong>0,1%</strong>). Investis en Fiat ou Crypto.</p>
+                    <p>Achat/Vente au prix du marché avec des conditions réalistes. Choisis ta plateforme pour ajuster les commissions.</p>
                 </div>
                 <div class="card">
                     <h3>Portfolio</h3>
@@ -296,9 +296,16 @@
                 <h4>Devise Fiat</h4>
                 <p>Euros (€) - Conversion USDT auto</p>
             </div>
-            <div class="spec-item">
-                <h4>Frais Réalistes</h4>
-                <p>0.1% par transaction simulée</p>
+            <div class="spec-item" style="min-width: 250px;">
+                <h4>Frais de Plateforme</h4>
+                <div class="exchange-selector" id="feeSelector">
+                    <button class="exchange-btn active" data-fee="0.10" onclick="updateFee(this, 'Binance')">Binance</button>
+                    <button class="exchange-btn" data-fee="0.26" onclick="updateFee(this, 'Kraken')">Kraken</button>
+                    <button class="exchange-btn" data-fee="1.49" onclick="updateFee(this, 'Bitpanda')">Bitpanda</button>
+                    <button class="exchange-btn" data-fee="1.49" onclick="updateFee(this, 'Revolut')">Revolut</button>
+                </div>
+                <p class="fee-display"><span id="currentFee">0.10</span>%</p>
+                <p id="platformName" style="font-size: 0.8rem; color: #777;">Commission standard Binance</p>
             </div>
             <div class="spec-item">
                 <h4>Mode Immersif</h4>
@@ -419,6 +426,18 @@
                 }, { passive: false });
             }
             })();
+
+            // Fee Selector Logic
+            function updateFee(btn, platform) {
+                // Update buttons
+                document.querySelectorAll('.exchange-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update text
+                const fee = btn.getAttribute('data-fee');
+                document.getElementById('currentFee').innerText = fee;
+                document.getElementById('platformName').innerText = `Commission standard ${platform}`;
+            }
         </script>
     </main>
 
