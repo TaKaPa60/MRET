@@ -978,6 +978,10 @@ Réponds de façon concise, percutante, style "conseil entre traders pros".`;
             document.getElementById('alertFlash').style.display = 'block';
             document.getElementById('stopBtn').style.display = 'block';
             
+            // Animation dans la barre de navigation
+            const navLink = document.querySelector('.nav-link[href="analytics.html"]');
+            if (navLink) navLink.classList.add('alarm-active');
+            
             const toast = document.getElementById('alertToast');
             toast.innerHTML = `🚨 <b>${cryptoName}</b> a atteint <b>${targetPrice}</b> !`;
             toast.style.display = 'block';
@@ -995,9 +999,19 @@ Réponds de façon concise, percutante, style "conseil entre traders pros".`;
             document.getElementById('alertFlash').style.display = 'none';
             document.getElementById('stopBtn').style.display = 'none';
             document.body.classList.remove('shake');
+            
+            // Supprimer l'animation navbar
+            const navLink = document.querySelector('.nav-link[href="analytics.html"]');
+            if (navLink) navLink.classList.remove('alarm-active');
+            
             const toast = document.getElementById('alertToast');
             toast.classList.remove('toast-in');
             setTimeout(() => { toast.style.display = 'none'; }, 400);
+
+            // Supprimer les notifications (alertes déclenchées)
+            alerts = alerts.filter(a => a.active);
+            localStorage.setItem('terminalAlerts', JSON.stringify(alerts));
+            renderAlerts();
         }
 
         function playTone() {

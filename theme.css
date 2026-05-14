@@ -97,6 +97,19 @@ h1, h2, h3, h4, .neon-title {
     text-shadow: 0 0 10px var(--neon-pink);
 }
 
+@keyframes nav-alarm-pulse {
+    0% { transform: scale(1); color: var(--gold-light); text-shadow: none; }
+    50% { transform: scale(1.1); color: #ff3333; text-shadow: 0 0 15px #ff3333, 0 0 30px #ff0000; }
+    100% { transform: scale(1); color: var(--gold-light); text-shadow: none; }
+}
+
+.nav-link.alarm-active {
+    animation: nav-alarm-pulse 0.8s infinite !important;
+    position: relative;
+    z-index: 1001;
+}
+
+
 /* Buttons */
 .btn {
     display: inline-block;
