@@ -411,18 +411,17 @@
                 container.parentNode.insertBefore(filterBar, container);
             }
 
-            // Add List Header inside the container (will be hidden/shown via CSS)
-            const listHeader = document.createElement('div');
-            listHeader.className = 'list-header';
-            listHeader.innerHTML = `
-                <div>Crypto</div>
-                <div>Prix</div>
-                <div class="hide-mobile">Variation</div>
-                <div class="hide-mobile">Bas 24H</div>
-                <div class="hide-mobile">Haut 24H</div>
-                <div style="text-align:right">Action</div>
+            // Build all cards HTML first
+            let containerHTML = `
+                <div class="list-header">
+                    <div>Crypto</div>
+                    <div>Prix</div>
+                    <div class="hide-mobile">Variation</div>
+                    <div class="hide-mobile">Bas 24H</div>
+                    <div class="hide-mobile">Haut 24H</div>
+                    <div style="text-align:right">Action</div>
+                </div>
             `;
-            container.prepend(listHeader);
 
             cryptoConfig.forEach((crypto, index) => {
                 const isFavorite = favorites.includes(crypto.symbol);
@@ -430,7 +429,7 @@
                 alertSelect.innerHTML += optionHTML;
                 aiSelect.innerHTML += optionHTML;
                 
-                container.innerHTML += `
+                containerHTML += `
                     <div class="glass-card" id="card-${crypto.symbol}" style="animation-delay: ${index * 0.08}s">
                         <div class="crypto-title">
                             <span class="favorite-star ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${crypto.symbol}')" id="fav-${crypto.symbol}">★</span>
@@ -472,6 +471,8 @@
                     </div>
                 `;
             });
+
+            container.innerHTML = containerHTML;
 
             cryptoConfig.forEach(crypto => {
                 const ctx = document.getElementById(`canvas-${crypto.symbol}`).getContext('2d');

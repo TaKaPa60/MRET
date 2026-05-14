@@ -664,6 +664,7 @@ textarea {
 .charts-column.list-mode {
     grid-template-columns: 1fr !important;
     gap: 0 !important;
+    align-content: start !important;
     background: rgba(20, 20, 20, 0.4);
     backdrop-filter: blur(10px);
     border-radius: 15px;
