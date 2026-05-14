@@ -250,6 +250,11 @@
             color: var(--gold-light);
         }
 
+        /* Utility for filtering */
+        .filtered-out {
+            display: none !important;
+        }
+
     </style>
 </head>
 <body>
@@ -820,7 +825,11 @@
                     visible = crypto.symbol.endsWith('USDT') || crypto.symbol.endsWith('USDS');
                 }
                 
-                card.style.display = visible ? 'block' : 'none';
+                if (visible) {
+                    card.classList.remove('filtered-out');
+                } else {
+                    card.classList.add('filtered-out');
+                }
             });
         }
 
