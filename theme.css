@@ -760,23 +760,43 @@ textarea {
 }
 
 @media (max-width: 768px) {
-    .list-mode .glass-card, .list-header {
-        grid-template-columns: 1.2fr 1fr 0.5fr !important;
-        padding: 10px 12px !important;
-        font-size: 0.8rem !important;
-        gap: 8px !important;
+    .list-header {
+        grid-template-columns: 1fr 1fr !important;
+        padding: 12px 15px !important;
+        border-radius: 12px 12px 0 0 !important;
+    }
+    .list-header div:nth-child(2) { text-align: right; }
+
+    .list-mode .glass-card {
+        grid-template-columns: 1fr 1fr !important;
+        padding: 15px !important;
+        gap: 5px !important;
     }
     
     .list-mode .crypto-title {
         grid-column: 1 !important;
+        font-size: 0.85rem !important;
     }
     
     .list-mode .crypto-price {
         grid-column: 2 !important;
+        text-align: right !important;
+        font-size: 1.05rem !important;
+        color: #fff !important;
+    }
+
+    .list-mode .list-mode-data[id^="list-var-"] {
+        grid-column: 2 !important;
+        display: block !important;
+        text-align: right !important;
+        font-size: 0.85rem !important;
+        margin-top: -4px;
     }
     
-    .list-mode .card-actions {
-        grid-column: 3 !important;
+    .list-mode .card-actions,
+    .list-mode .list-mode-data[id^="list-low-"],
+    .list-mode .list-mode-data[id^="list-high-"] {
+        display: none !important;
     }
 
     .hide-mobile {
