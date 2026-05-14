@@ -761,10 +761,24 @@ textarea {
 
 @media (max-width: 768px) {
     .list-mode .glass-card, .list-header {
-        grid-template-columns: 1.2fr 1.2fr 0.8fr !important;
-        padding: 12px 15px !important;
-        font-size: 0.85rem !important;
+        grid-template-columns: 1.2fr 1fr 0.5fr !important;
+        padding: 10px 12px !important;
+        font-size: 0.8rem !important;
+        gap: 8px !important;
     }
+    
+    .list-mode .crypto-title {
+        grid-column: 1 !important;
+    }
+    
+    .list-mode .crypto-price {
+        grid-column: 2 !important;
+    }
+    
+    .list-mode .card-actions {
+        grid-column: 3 !important;
+    }
+
     .hide-mobile {
         display: none !important;
     }
