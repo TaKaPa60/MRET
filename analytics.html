@@ -430,9 +430,9 @@
                 aiSelect.innerHTML += optionHTML;
                 
                 containerHTML += `
-                    <div class="glass-card" id="card-${crypto.symbol}" style="animation-delay: ${index * 0.08}s">
+                    <div class="glass-card" id="card-${crypto.symbol}" style="animation-delay: ${index * 0.08}s" onclick="toggleCardExpansion('${crypto.symbol}')">
                         <div class="crypto-title">
-                            <span class="favorite-star ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${crypto.symbol}')" id="fav-${crypto.symbol}">★</span>
+                            <span class="favorite-star ${isFavorite ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${crypto.symbol}')" id="fav-${crypto.symbol}">★</span>
                             ${crypto.name} 
                             <span class="crypto-symbol-tag">${crypto.symbol}</span>
                         </div>
@@ -447,15 +447,15 @@
                         
                         <div class="card-actions">
                             <div class="chart-controls-wrapper">
-                                <button class="time-btn-mobile-toggle" onclick="toggleTimeframeMenu('${crypto.symbol}')" id="tf-toggle-${crypto.symbol}">1J</button>
+                                <button class="time-btn-mobile-toggle" onclick="event.stopPropagation(); toggleTimeframeMenu('${crypto.symbol}')" id="tf-toggle-${crypto.symbol}">1J</button>
                                 <div class="chart-controls" id="controls-${crypto.symbol}">
-                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1H')">1H</button>
-                                    <button class="time-btn active" onclick="changeTimeframe('${crypto.symbol}', '1J')">1J</button>
-                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '1M')">1M</button>
-                                    <button class="time-btn" onclick="changeTimeframe('${crypto.symbol}', '6M')">6M</button>
+                                    <button class="time-btn" onclick="event.stopPropagation(); changeTimeframe('${crypto.symbol}', '1H')">1H</button>
+                                    <button class="time-btn active" onclick="event.stopPropagation(); changeTimeframe('${crypto.symbol}', '1J')">1J</button>
+                                    <button class="time-btn" onclick="event.stopPropagation(); changeTimeframe('${crypto.symbol}', '1M')">1M</button>
+                                    <button class="time-btn" onclick="event.stopPropagation(); changeTimeframe('${crypto.symbol}', '6M')">6M</button>
                                 </div>
                             </div>
-                            <button class="btn-expand" onclick="openModal('${crypto.symbol}')">⛶</button>
+                            <button class="btn-expand" onclick="event.stopPropagation(); openModal('${crypto.symbol}')">⛶</button>
                         </div>
 
                         <div class="chart-container" id="chart-wrap-${crypto.symbol}">
@@ -508,6 +508,18 @@
             });
             
             applyViewMode();
+        }
+
+        function toggleCardExpansion(symbol) {
+            if (viewMode !== 'list') return;
+            const card = document.getElementById(`card-${symbol}`);
+            
+            // Close other expanded cards first
+            document.querySelectorAll('.glass-card.expanded').forEach(c => {
+                if (c.id !== `card-${symbol}`) c.classList.remove('expanded');
+            });
+            
+            card.classList.toggle('expanded');
         }
 
         function applyViewMode() {

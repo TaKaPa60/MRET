@@ -771,8 +771,15 @@ textarea {
         grid-template-columns: 1fr 1fr !important;
         padding: 15px !important;
         gap: 5px !important;
+        cursor: pointer;
+        transition: all 0.3s ease !important;
     }
     
+    .list-mode .glass-card.expanded {
+        padding-bottom: 15px !important;
+        background: rgba(255, 215, 0, 0.08) !important;
+    }
+
     .list-mode .crypto-title {
         grid-column: 1 !important;
         font-size: 0.85rem !important;
@@ -792,6 +799,29 @@ textarea {
         font-size: 0.85rem !important;
         margin-top: -4px;
     }
+
+    /* Expandable Low/High prices on Mobile */
+    .list-mode .glass-card.expanded .list-mode-data[id^="list-low-"],
+    .list-mode .glass-card.expanded .list-mode-data[id^="list-high-"] {
+        display: block !important;
+        grid-row: 2;
+        margin-top: 10px;
+        font-size: 0.75rem !important;
+        color: #94a3b8;
+        font-weight: 600;
+        animation: fadeIn 0.3s ease forwards;
+    }
+
+    .list-mode .glass-card.expanded .list-mode-data[id^="list-low-"] {
+        grid-column: 1 !important;
+    }
+    .list-mode .glass-card.expanded .list-mode-data[id^="list-low-"]::before { content: 'BAS 24H: '; color: var(--gold-main); font-size: 0.65rem; }
+
+    .list-mode .glass-card.expanded .list-mode-data[id^="list-high-"] {
+        grid-column: 2 !important;
+        text-align: right !important;
+    }
+    .list-mode .glass-card.expanded .list-mode-data[id^="list-high-"]::before { content: 'HAUT 24H: '; color: var(--gold-main); font-size: 0.65rem; }
     
     .list-mode .card-actions,
     .list-mode .list-mode-data[id^="list-low-"],
