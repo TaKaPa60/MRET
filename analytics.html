@@ -269,6 +269,107 @@
             color: var(--gold-light);
         }
 
+        /* Purchase Tracker UI */
+        .purchase-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: var(--gold-main);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .purchase-badge:hover {
+            background: var(--gold-main);
+            color: #000;
+            box-shadow: 0 0 15px var(--gold-main);
+        }
+        .purchase-badge.active {
+            background: rgba(0, 255, 0, 0.15);
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+
+        .purchase-form {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 15px;
+            border-radius: 20px;
+        }
+        .purchase-form.show { display: flex; }
+        .form-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 800; color: var(--gold-main); text-align: center; margin-bottom: 5px; }
+        
+        .input-row { display: flex; flex-direction: column; gap: 5px; }
+        .input-row label { font-size: 0.7rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+        .input-row input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,215,0,0.2); padding: 10px; border-radius: 8px; color: #fff; font-size: 0.9rem; }
+        
+        .form-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-save { background: var(--gold-main); color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: 800; flex: 1; cursor: pointer; }
+        .btn-cancel { background: rgba(255,255,255,0.1); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 800; flex: 1; cursor: pointer; }
+        .btn-remove { background: rgba(255, 0, 0, 0.1); color: #ff3333; border: 1px solid #ff3333; padding: 10px; border-radius: 8px; font-weight: 800; width: 100%; cursor: pointer; margin-top: 5px; }
+
+        .purchase-results {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+            display: none;
+        }
+        .purchase-results.show { display: block; }
+        .res-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 0.8rem; }
+        .res-row:last-child { margin-bottom: 0; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .res-label { color: #94a3b8; font-weight: 600; }
+        .res-val { font-weight: 800; }
+        .res-pnl { font-size: 1rem; }
+
+        /* Sync with list mode */
+        .list-mode .purchase-badge { position: static; margin-left: 10px; padding: 2px 6px; font-size: 0.65rem; }
+        .list-mode .purchase-results { margin-top: 0; border: none; background: transparent; padding: 0; display: none !important; }
+        .list-mode .glass-card.expanded .purchase-results { display: block !important; margin-top: 15px; border: 1px solid rgba(255, 215, 0, 0.1); background: rgba(255, 215, 0, 0.05); padding: 12px; }
+        
+        /* Improved Inline Form for List Mode */
+        .list-mode .purchase-form { 
+            position: relative !important; 
+            inset: auto !important; 
+            grid-column: 1 / -1 !important; 
+            margin-top: 15px !important; 
+            width: 100% !important; 
+            background: rgba(0, 0, 0, 0.4) !important; 
+            border: 1px solid var(--gold-dark) !important; 
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5) !important;
+            padding: 15px !important;
+            transform: none !important;
+            display: none;
+            flex-direction: column;
+            border-radius: 12px;
+        }
+        .list-mode .purchase-form.show { 
+            display: flex !important; 
+        }
+        
+        /* Ensure the card can grow in list mode */
+        .list-mode .glass-card {
+            height: auto !important;
+            min-height: 50px;
+        }
+
     </style>
 </head>
 <body>
@@ -396,6 +497,7 @@
         var lastPrices = {};
         var marketData = {};
         var viewMode = localStorage.getItem('terminalViewMode') || 'grid';
+        var purchases = JSON.parse(localStorage.getItem('terminalPurchases')) || {};
 
         function initApp() {
             const container = document.getElementById('chartsContainer');
@@ -477,6 +579,46 @@
                             <button class="btn-expand" onclick="event.stopPropagation(); openModal('${crypto.symbol}')">⛶</button>
                         </div>
 
+                        <div class="purchase-badge" id="p-badge-${crypto.symbol}" onclick="event.stopPropagation(); togglePurchaseForm('${crypto.symbol}')">
+                            💰 Suivi Achat
+                        </div>
+
+                        <div class="purchase-form" id="p-form-${crypto.symbol}" onclick="event.stopPropagation()">
+                            <div class="form-title">CONFIGURATION ACHAT</div>
+                            <div class="input-row">
+                                <label>Prix d'achat (${crypto.currency})</label>
+                                <input type="number" id="buy-price-${crypto.symbol}" placeholder="Ex: 78.50" step="any">
+                            </div>
+                            <div class="input-row">
+                                <label>Montant investi (${crypto.currency})</label>
+                                <input type="number" id="buy-amount-${crypto.symbol}" placeholder="Ex: 50" step="any">
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn-save" onclick="savePurchase('${crypto.symbol}')">Sauver</button>
+                                <button class="btn-cancel" onclick="togglePurchaseForm('${crypto.symbol}')">Fermer</button>
+                            </div>
+                            <button class="btn-remove" id="btn-remove-${crypto.symbol}" style="display:none;" onclick="removePurchase('${crypto.symbol}')">Supprimer l'achat</button>
+                        </div>
+
+                        <div class="purchase-results" id="p-res-${crypto.symbol}">
+                            <div class="res-row">
+                                <span class="res-label">Investi</span>
+                                <span class="res-val" id="res-inv-${crypto.symbol}">--</span>
+                            </div>
+                            <div class="res-row">
+                                <span class="res-label">Valeur</span>
+                                <span class="res-val" id="res-val-${crypto.symbol}">--</span>
+                            </div>
+                            <div class="res-row">
+                                <span class="res-label">Variation</span>
+                                <span class="res-val" id="res-var-${crypto.symbol}">--</span>
+                            </div>
+                            <div class="res-row">
+                                <span class="res-label">P&L</span>
+                                <span class="res-val res-pnl" id="res-pnl-${crypto.symbol}">--</span>
+                            </div>
+                        </div>
+
                         <div class="chart-container" id="chart-wrap-${crypto.symbol}">
                             <div class="loading-state" id="loading-${crypto.symbol}">
                                 <div class="spinner"></div> Chargement...
@@ -497,6 +639,11 @@
                 const ctx = document.getElementById(`canvas-${crypto.symbol}`).getContext('2d');
                 charts[crypto.symbol] = createChartInstance(ctx);
                 fetchChartData(crypto.symbol, '1J');
+                
+                // Initial purchase sync if data exists
+                if (purchases[crypto.symbol]) {
+                    // We don't have prices yet, but refreshMarketData will call it shortly
+                }
             });
 
             renderAlerts();
@@ -754,6 +901,11 @@
                         if (listLow) listLow.innerText = `${low.toFixed(decimals)} ${crypto.currency}`;
                         const listHigh = document.getElementById(`list-high-${crypto.symbol}`);
                         if (listHigh) listHigh.innerText = `${high.toFixed(decimals)} ${crypto.currency}`;
+                        
+                        // Purchase Tracker Update
+                        if (purchases[crypto.symbol]) {
+                            updatePurchaseUI(crypto.symbol, price);
+                        }
 
                         checkAlerts(crypto.symbol, price);
                     }
@@ -1046,6 +1198,94 @@ Réponds de façon concise, percutante, style "conseil entre traders pros".`;
             document.head.appendChild(s);
         } else {
             _startApp();
+        }
+
+        // ==================== PURCHASE TRACKER LOGIC ====================
+
+        function togglePurchaseForm(symbol) {
+            const form = document.getElementById(`p-form-${symbol}`);
+            const isShowing = form.classList.toggle('show');
+            
+            if (isShowing) {
+                // In list mode, ensure the card is expanded to show the inline form correctly
+                if (viewMode === 'list') {
+                    const card = document.getElementById(`card-${symbol}`);
+                    if (card && !card.classList.contains('expanded')) {
+                        toggleCardExpansion(symbol);
+                    }
+                }
+
+                // Populate if exists
+                if (purchases[symbol]) {
+                    document.getElementById(`buy-price-${symbol}`).value = purchases[symbol].price;
+                    document.getElementById(`buy-amount-${symbol}`).value = purchases[symbol].amount;
+                    document.getElementById(`btn-remove-${symbol}`).style.display = 'block';
+                } else {
+                    document.getElementById(`btn-remove-${symbol}`).style.display = 'none';
+                }
+            }
+        }
+
+        function savePurchase(symbol) {
+            const price = parseFloat(document.getElementById(`buy-price-${symbol}`).value);
+            const amount = parseFloat(document.getElementById(`buy-amount-${symbol}`).value);
+            
+            if (!price || !amount) {
+                alert("Veuillez remplir le prix et le montant.");
+                return;
+            }
+            
+            purchases[symbol] = { price, amount };
+            localStorage.setItem('terminalPurchases', JSON.stringify(purchases));
+            togglePurchaseForm(symbol);
+            
+            // UI Update
+            const p = marketData[symbol] ? parseFloat(marketData[symbol].price) : 0;
+            if (p) updatePurchaseUI(symbol, p);
+        }
+
+        function removePurchase(symbol) {
+            delete purchases[symbol];
+            localStorage.setItem('terminalPurchases', JSON.stringify(purchases));
+            togglePurchaseForm(symbol);
+            
+            // Clean UI
+            document.getElementById(`p-res-${symbol}`).classList.remove('show');
+            document.getElementById(`p-badge-${symbol}`).classList.remove('active');
+            document.getElementById(`p-badge-${symbol}`).innerText = "💰 Achat";
+        }
+
+        function updatePurchaseUI(symbol, currentPrice) {
+            const data = purchases[symbol];
+            const resultsEl = document.getElementById(`p-res-${symbol}`);
+            const badge = document.getElementById(`p-badge-${symbol}`);
+            
+            if (!data || !resultsEl || !badge) return;
+            
+            resultsEl.classList.add('show');
+            badge.classList.add('active');
+            badge.innerText = "💰 Suivi Actif";
+            
+            const investment = data.amount;
+            const buyPrice = data.price;
+            const cryptoQty = investment / buyPrice;
+            const currentVal = cryptoQty * currentPrice;
+            const pnl = currentVal - investment;
+            const variation = ((currentPrice - buyPrice) / buyPrice) * 100;
+            
+            const crypto = cryptoConfig.find(c => c.symbol === symbol);
+            const currency = crypto ? crypto.currency : '€';
+            
+            document.getElementById(`res-inv-${symbol}`).innerText = `${investment.toFixed(2)}${currency}`;
+            document.getElementById(`res-val-${symbol}`).innerText = `${currentVal.toFixed(2)}${currency}`;
+            
+            const varEl = document.getElementById(`res-var-${symbol}`);
+            varEl.innerText = `${variation >= 0 ? '+' : ''}${variation.toFixed(2)}%`;
+            varEl.style.color = variation >= 0 ? '#00ff00' : '#ff3333';
+            
+            const pnlEl = document.getElementById(`res-pnl-${symbol}`);
+            pnlEl.innerText = `${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}${currency}`;
+            pnlEl.style.color = pnl >= 0 ? '#00ff00' : '#ff3333';
         }
     </script>
     <footer>
