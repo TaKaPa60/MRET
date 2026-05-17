@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +11,44 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://mret.fr/academy.html">
 
-    <!-- Schema.org JSON-LD pour le SEO et Réf IA -->
+    <!-- Optimisation Géographique / GEO-Targeting France & Europe -->
+    <meta name="geo.region" content="FR" />
+    <meta name="geo.placename" content="Paris" />
+    <meta name="geo.position" content="48.8566;2.3522" />
+    <meta name="ICBM" content="48.8566, 2.3522" />
+
+    <!-- Balises Hreflang pour le ciblage multilingue/multi-région -->
+    <link rel="alternate" hreflang="fr-FR" href="https://mret.fr/academy.html" />
+    <link rel="alternate" hreflang="fr-BE" href="https://mret.fr/academy.html" />
+    <link rel="alternate" hreflang="fr-CH" href="https://mret.fr/academy.html" />
+    <link rel="alternate" hreflang="x-default" href="https://mret.fr/academy.html" />
+
+    <!-- Schema.org JSON-LD pour le SEO et Réf IA (Optimisé Europe/France) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Course",
       "name": "R.E.T Academy : Apprendre la Crypto-Monnaie",
       "description": "Découvrez le fonctionnement de la blockchain, du minage (Proof of Work) et des transactions cryptographiques avec l'Academy R.E.T.",
+      "inLanguage": "fr-FR",
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "France"
+        },
+        {
+          "@type": "Country",
+          "name": "Belgium"
+        },
+        {
+          "@type": "Country",
+          "name": "Switzerland"
+        },
+        {
+          "@type": "Continent",
+          "name": "Europe"
+        }
+      ],
       "provider": {
         "@type": "Organization",
         "name": "Mouvement R.E.T",
@@ -32,6 +63,10 @@
     <meta property="og:title" content="R.E.T Academy : Apprendre la Crypto-Monnaie">
     <meta property="og:description" content="Découvrez le fonctionnement de la blockchain et du minage de manière interactive avec l'Academy R.E.T.">
     <meta property="og:image" content="https://mret.fr/RETtransp.jpg">
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="fr_BE" />
+    <meta property="og:locale:alternate" content="fr_CH" />
+    <meta property="og:locale:alternate" content="en_GB" />
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://mret.fr/academy.html">
@@ -256,7 +291,7 @@
     <div class="nav-links">
         <a href="index.html" class="nav-link">Accueil</a>
         <a href="academy.html" class="nav-link active">Academy</a>
-        <a href="https://ret-mouvement.web.app/" class="nav-link">Stats Live</a>
+        <a href="analytics.html" class="nav-link">Stats Live</a>
     </div>
 </nav>
 
@@ -272,34 +307,34 @@
 
     <div class="ticker-wrap fade-in delay-1">
         <div class="ticker">
-            <div class="ticker-item"><span class="ticker-pair">BTC/EUR</span><span class="ticker-price">68,858.76 &euro;</span><span class="ticker-change pos">+0.27%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">ETH/EUR</span><span class="ticker-price">1,972.25 &euro;</span><span class="ticker-change neg">-0.21%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">SOL/EUR</span><span class="ticker-price">81.04 &euro;</span><span class="ticker-change pos">+1.81%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">DOT/EUR</span><span class="ticker-price">1.15 &euro;</span><span class="ticker-change neg">-0.73%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">ENA/EUR</span><span class="ticker-price">0.11 &euro;</span><span class="ticker-change neg">-0.08%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">BTC/EUR</span><span class="ticker-price">68,858.76 &euro;</span><span class="ticker-change pos">+0.27%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">ETH/EUR</span><span class="ticker-price">1,972.25 &euro;</span><span class="ticker-change neg">-0.21%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">SOL/EUR</span><span class="ticker-price">81.04 &euro;</span><span class="ticker-change pos">+1.81%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">DOT/EUR</span><span class="ticker-price">1.15 &euro;</span><span class="ticker-change neg">-0.73%</span></div>
-            <div class="ticker-item"><span class="ticker-pair">ENA/EUR</span><span class="ticker-price">0.11 &euro;</span><span class="ticker-change neg">-0.08%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">BTC/EUR</span><span class="ticker-price">68&nbsp;858,76&nbsp;&euro;</span><span class="ticker-change pos">+0,27&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ETH/EUR</span><span class="ticker-price">1&nbsp;972,25&nbsp;&euro;</span><span class="ticker-change neg">-0,21&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">SOL/EUR</span><span class="ticker-price">81,04&nbsp;&euro;</span><span class="ticker-change pos">+1,81&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">DOT/EUR</span><span class="ticker-price">1,15&nbsp;&euro;</span><span class="ticker-change neg">-0,73&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ENA/EUR</span><span class="ticker-price">0,11&nbsp;&euro;</span><span class="ticker-change neg">-0,08&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">BTC/EUR</span><span class="ticker-price">68&nbsp;858,76&nbsp;&euro;</span><span class="ticker-change pos">+0,27&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ETH/EUR</span><span class="ticker-price">1&nbsp;972,25&nbsp;&euro;</span><span class="ticker-change neg">-0,21&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">SOL/EUR</span><span class="ticker-price">81,04&nbsp;&euro;</span><span class="ticker-change pos">+1,81&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">DOT/EUR</span><span class="ticker-price">1,15&nbsp;&euro;</span><span class="ticker-change neg">-0,73&nbsp;%</span></div>
+            <div class="ticker-item"><span class="ticker-pair">ENA/EUR</span><span class="ticker-price">0,11&nbsp;&euro;</span><span class="ticker-change neg">-0,08&nbsp;%</span></div>
         </div>
     </div>
 
     <div class="grid-2 fade-in delay-2">
         <div class="card">
             <div class="card-label">Capitalisation Totale</div>
-            <div class="card-value gold">2.47T $</div>
+            <div class="card-value gold">2,47&nbsp;T&nbsp;$</div>
             <div class="stat-row">
                 <span class="stat-label">Dominance BTC</span>
-                <span class="stat-value" style="color: var(--gold)">54.2%</span>
+                <span class="stat-value" style="color: var(--gold)">54,2&nbsp;%</span>
             </div>
         </div>
         <div class="card">
             <div class="card-label">Volume 24H</div>
-            <div class="card-value purple">89.3B $</div>
+            <div class="card-value purple">89,3&nbsp;B&nbsp;$</div>
             <div class="stat-row">
                 <span class="stat-label">Transactions</span>
-                <span class="stat-value" style="color: var(--purple-light)">+12.4%</span>
+                <span class="stat-value" style="color: var(--purple-light)">+12,4&nbsp;%</span>
             </div>
         </div>
     </div>
@@ -335,7 +370,7 @@
             <div class="block-hash">
                 <div><span class="label">Hash      </span> <span class="value">00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048</span></div>
                 <div><span class="label">Prev      </span> <span class="prev">000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</span></div>
-                <div><span class="label">Data      </span> <span style="color: var(--text-muted)">1 transaction - 50 BTC minted</span></div>
+                <div><span class="label">Data      </span> <span style="color: var(--text-muted)">1 transaction - 50&nbsp;BTC forger</span></div>
             </div>
         </div>
 
@@ -349,7 +384,7 @@
             <div class="block-hash">
                 <div><span class="label">Hash      </span> <span class="value">000000006c02c8ea6e4ff696d0e0c5c3f2c0d8e5b9e7c6a5b4c3d2e1f0a1b2c3</span></div>
                 <div><span class="label">Prev      </span> <span class="prev">00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048</span></div>
-                <div><span class="label">Data      </span> <span style="color: var(--text-muted)">2 transactions - Difficulty: 1.00</span></div>
+                <div><span class="label">Data      </span> <span style="color: var(--text-muted)">2 transactions - Difficulté&nbsp;: 1,00</span></div>
             </div>
         </div>
     </div>
@@ -384,14 +419,14 @@
         </div>
         <div class="mining-visual">
             <div class="card-label">Recompense</div>
-            <div class="card-value gold" style="margin-top: 10px;">6.25 BTC</div>
+            <div class="card-value gold" style="margin-top: 10px;">6,25&nbsp;BTC</div>
             <div class="stat-row">
                 <span class="stat-label">Difficulte</span>
-                <span class="stat-value">72.14 T</span>
+                <span class="stat-value">72,14&nbsp;T</span>
             </div>
             <div class="stat-row">
                 <span class="stat-label">Hashrate</span>
-                <span class="stat-value">512 EH/s</span>
+                <span class="stat-value">512&nbsp;EH/s</span>
             </div>
             <div class="reward-badge" id="reward-badge">
                 <span style="font-size: 16px;">&#10003;</span> BLOC VALIDE
@@ -414,7 +449,7 @@
     <div class="tx-scene fade-in delay-1">
         <div class="wallet-card" id="wallet-alice">
             <div class="wallet-name">Alice</div>
-            <div class="wallet-balance" id="balance-alice">5.0000 BTC</div>
+            <div class="wallet-balance" id="balance-alice">5,0000&nbsp;BTC</div>
             <div class="wallet-key">
                 <span style="color: var(--text-dim)">PUB:</span> 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa<br>
                 <span style="color: var(--text-dim)">PRV:</span> [MASQUEE]
@@ -429,7 +464,7 @@
 
         <div class="wallet-card" id="wallet-bob">
             <div class="wallet-name">Bob</div>
-            <div class="wallet-balance" id="balance-bob">2.0000 BTC</div>
+            <div class="wallet-balance" id="balance-bob">2,0000&nbsp;BTC</div>
             <div class="wallet-key">
                 <span style="color: var(--text-dim)">PUB:</span> 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2<br>
                 <span style="color: var(--text-dim)">PRV:</span> [MASQUEE]
@@ -439,7 +474,7 @@
     </div>
 
     <button class="btn btn-gold fade-in delay-2" onclick="sendTx()" id="tx-btn">
-        Envoyer 1.0000 BTC
+        Envoyer 1,0000&nbsp;BTC
     </button>
     <p class="section-subtitle" style="margin-top: 16px; font-size: 12px;">
         La cle privee d'Alice signe la transaction. Tout le reseau peut verifier avec sa cle publique 
@@ -579,8 +614,8 @@
             status.innerText = "DIFFUSION...";
             setTimeout(() => {
                 status.innerText = "CONFIRME";
-                alice.innerText = "4.0000 BTC";
-                bob.innerText = "3.0000 BTC";
+                alice.innerText = "4,0000\u00A0BTC";
+                bob.innerText = "3,0000\u00A0BTC";
                 document.getElementById('wallet-alice').classList.add('sending');
                 document.getElementById('wallet-bob').classList.add('receiving');
                 setTimeout(() => {

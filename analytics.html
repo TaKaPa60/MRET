@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,19 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://mret.fr/analytics.html">
 
-    <!-- Schema.org JSON-LD pour le SEO et Réf IA -->
+    <!-- Optimisation Géographique / GEO-Targeting France & Europe -->
+    <meta name="geo.region" content="FR" />
+    <meta name="geo.placename" content="Paris" />
+    <meta name="geo.position" content="48.8566;2.3522" />
+    <meta name="ICBM" content="48.8566, 2.3522" />
+
+    <!-- Balises Hreflang pour le ciblage multilingue/multi-région -->
+    <link rel="alternate" hreflang="fr-FR" href="https://mret.fr/analytics.html" />
+    <link rel="alternate" hreflang="fr-BE" href="https://mret.fr/analytics.html" />
+    <link rel="alternate" hreflang="fr-CH" href="https://mret.fr/analytics.html" />
+    <link rel="alternate" hreflang="x-default" href="https://mret.fr/analytics.html" />
+
+    <!-- Schema.org JSON-LD pour le SEO et Réf IA (Optimisé Europe/France) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -20,9 +32,29 @@
       "applicationCategory": "FinanceApplication",
       "description": "Terminal d'analyse de crypto-monnaies en temps réel avec alertes de prix et génération d'analyse technique assistée par IA.",
       "url": "https://mret.fr/analytics.html",
+      "inLanguage": "fr-FR",
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "France"
+        },
+        {
+          "@type": "Country",
+          "name": "Belgium"
+        },
+        {
+          "@type": "Country",
+          "name": "Switzerland"
+        },
+        {
+          "@type": "Continent",
+          "name": "Europe"
+        }
+      ],
       "author": {
         "@type": "Organization",
-        "name": "Mouvement R.E.T"
+        "name": "Mouvement R.E.T",
+        "url": "https://mret.fr/"
       }
     }
     </script>
@@ -33,6 +65,10 @@
     <meta property="og:title" content="Stats Live Crypto & Terminal R.E.T">
     <meta property="og:description" content="Suivez les cours des crypto-monnaies en temps réel, configurez des alertes et générez des analyses IA avec le Terminal R.E.T.">
     <meta property="og:image" content="https://mret.fr/RETtransp.jpg">
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="fr_BE" />
+    <meta property="og:locale:alternate" content="fr_CH" />
+    <meta property="og:locale:alternate" content="en_GB" />
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://mret.fr/analytics.html">
@@ -476,6 +512,14 @@
 
 
     <script>
+        function formatNumber(num, decimals = 2) {
+            if (num === null || num === undefined || isNaN(num)) return '--';
+            return new Intl.NumberFormat('fr-FR', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            }).format(num);
+        }
+
         // ✅ DOTEUR est bien présent ici
         var cryptoConfig = [
             { symbol: 'BTCEUR', name: 'Bitcoin', currency: '€' },
@@ -870,18 +914,23 @@
                         if (!marketData[crypto.symbol]) {
                             marketData[crypto.symbol] = { name: crypto.name, symbol: crypto.symbol, currency: crypto.currency };
                         }
-                        marketData[crypto.symbol].price = price.toFixed(decimals);
-                        marketData[crypto.symbol].variation = change.toFixed(2);
-                        marketData[crypto.symbol].high = high.toFixed(decimals);
-                        marketData[crypto.symbol].low = low.toFixed(decimals);
-                        marketData[crypto.symbol].volume = volume.toFixed(2);
+                        marketData[crypto.symbol].price = price;
+                        marketData[crypto.symbol].variation = change;
+                        marketData[crypto.symbol].high = high;
+                        marketData[crypto.symbol].low = low;
+                        marketData[crypto.symbol].volume = volume;
+                        marketData[crypto.symbol].priceFormatted = formatNumber(price, decimals);
+                        marketData[crypto.symbol].variationFormatted = formatNumber(change, 2);
+                        marketData[crypto.symbol].highFormatted = formatNumber(high, decimals);
+                        marketData[crypto.symbol].lowFormatted = formatNumber(low, decimals);
+                        marketData[crypto.symbol].volumeFormatted = formatNumber(volume, 2);
 
                         // Ticker HTML
                         tickerHTML += `
                             <div class="ticker-item">
                                 <span style="color:var(--text-dim); font-weight: 700;">${crypto.name}</span>
-                                <span style="font-weight: 800;">${price.toFixed(decimals)}${crypto.currency}</span>
-                                <span class="${change >= 0 ? 'trend-up' : 'trend-down'}" style="font-weight: 800;">${change >= 0 ? '▲' : '▼'} ${change.toFixed(2)}%</span>
+                                <span style="font-weight: 800;">${formatNumber(price, decimals)}&nbsp;${crypto.currency}</span>
+                                <span class="${change >= 0 ? 'trend-up' : 'trend-down'}" style="font-weight: 800;">${change >= 0 ? '▲' : '▼'}&nbsp;${formatNumber(change, 2)}&nbsp;%</span>
                             </div>
                         `;
 
@@ -889,7 +938,7 @@
                         const priceEl = document.getElementById(`price-${crypto.symbol}`);
                         if (priceEl) {
                             const oldPrice = parseFloat(priceEl.dataset.lastPrice) || 0;
-                            priceEl.innerText = `${price.toFixed(decimals)} ${crypto.currency}`;
+                            priceEl.innerText = `${formatNumber(price, decimals)}\u00A0${crypto.currency}`;
                             
                             if (oldPrice > 0 && Math.abs(price - oldPrice) > 0.0001) {
                                 const varElFlash = document.getElementById(`var-${crypto.symbol}`);
@@ -909,20 +958,20 @@
                         // Grid View Variation update
                         const varEl = document.getElementById(`var-${crypto.symbol}`);
                         if (varEl) {
-                            varEl.innerText = `${change >= 0 ? '▲ +' : '▼ '}${change.toFixed(2)}%`;
+                            varEl.innerText = `${change >= 0 ? '▲ +' : '▼ '}${formatNumber(change, 2)}\u00A0%`;
                             varEl.className = `crypto-var ${change >= 0 ? 'bg-up' : 'bg-down'}`;
                         }
 
                         // List View Sync
                         const listVar = document.getElementById(`list-var-${crypto.symbol}`);
                         if (listVar) {
-                            listVar.innerText = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
+                            listVar.innerText = `${change >= 0 ? '+' : ''}${formatNumber(change, 2)}\u00A0%`;
                             listVar.style.color = change >= 0 ? '#00ff00' : '#ff3333';
                         }
                         const listLow = document.getElementById(`list-low-${crypto.symbol}`);
-                        if (listLow) listLow.innerText = `${low.toFixed(decimals)} ${crypto.currency}`;
+                        if (listLow) listLow.innerText = `${formatNumber(low, decimals)}\u00A0${crypto.currency}`;
                         const listHigh = document.getElementById(`list-high-${crypto.symbol}`);
-                        if (listHigh) listHigh.innerText = `${high.toFixed(decimals)} ${crypto.currency}`;
+                        if (listHigh) listHigh.innerText = `${formatNumber(high, decimals)}\u00A0${crypto.currency}`;
                         
                         // Purchase Tracker Update
                         if (purchases[crypto.symbol]) {
@@ -1052,10 +1101,10 @@
             }
 
             const currentTf = data.timeframe || "1 Jour";
-            const trend = parseFloat(data.variation) >= 0 ? "HAUSSIÈRE 📈" : "BAISSIÈRE 📉";
-            const sentiment = parseFloat(data.variation) >= 0 ? "positif" : "négatif";
-            const riskAdvice = parseFloat(data.variation) >= 5 ? "Attention, la crypto a déjà bien pump, pense à prendre des profits progressivement." : 
-                              parseFloat(data.variation) <= -5 ? "Opportunité d'achat à prix cassé possible, mais attends une confirmation de rebond." :
+            const trend = data.variation >= 0 ? "HAUSSIÈRE 📈" : "BAISSIÈRE 📉";
+            const sentiment = data.variation >= 0 ? "positif" : "négatif";
+            const riskAdvice = data.variation >= 5 ? "Attention, la crypto a déjà bien pump, pense à prendre des profits progressivement." : 
+                              data.variation <= -5 ? "Opportunité d'achat à prix cassé possible, mais attends une confirmation de rebond." :
                               "Marché stable, bon moment pour du DCA (Dollar Cost Averaging).";
 
             // Add Purchase Info if exists
@@ -1063,16 +1112,16 @@
             if (purchases[symbol]) {
                 const b = purchases[symbol];
                 const qty = b.amount / b.price;
-                const currentVal = qty * parseFloat(data.price);
+                const currentVal = qty * data.price;
                 const pnl = currentVal - b.amount;
-                const pnlPct = ((parseFloat(data.price) - b.price) / b.price) * 100;
+                const pnlPct = ((data.price - b.price) / b.price) * 100;
                 
                 purchaseInfo = `
 💰 MON INVESTISSEMENT ACTUEL :
-• Mon prix d'achat : ${b.price} ${data.currency}
-• Mon investissement : ${b.amount} ${data.currency}
-• Ma valeur actuelle : ${currentVal.toFixed(2)} ${data.currency}
-• Mon P&L : ${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)} ${data.currency} (${pnlPct.toFixed(2)}%)
+• Mon prix d'achat : ${formatNumber(b.price, 2)} ${data.currency}
+• Mon investissement : ${formatNumber(b.amount, 2)} ${data.currency}
+• Ma valeur actuelle : ${formatNumber(currentVal, 2)} ${data.currency}
+• Mon P&L : ${pnl >= 0 ? '+' : ''}${formatNumber(pnl, 2)} ${data.currency} (${formatNumber(pnlPct, 2)}%)
 • Mission : Analyse si je dois sortir maintenant, garder ou renforcer ma position.
 `;
             }
@@ -1080,11 +1129,11 @@
             const prompt = `Tu es un analyste crypto expert et trader professionnel. Voici les données LIVE de ${data.name} (${data.symbol}) sur la période sélectionnée (${currentTf}) :
 
 📊 STATS TECHNIQUES (${currentTf}) :
-• Prix actuel : ${data.price} ${data.currency}
-• Tendance : ${trend} (${data.variation}%)
-• Plus haut (période) : ${data.periodHigh || data.high} ${data.currency}
-• Plus bas (période) : ${data.periodLow || data.low} ${data.currency}
-• Volume (période) : ${data.periodVolume || data.volume} (unités)${purchaseInfo}
+• Prix actuel : ${data.priceFormatted} ${data.currency}
+• Tendance : ${trend} (${data.variationFormatted}%)
+• Plus haut (période) : ${data.periodHigh ? formatNumber(data.periodHigh, data.price < 10 ? 4 : 2) : data.highFormatted} ${data.currency}
+• Plus bas (période) : ${data.periodLow ? formatNumber(data.periodLow, data.price < 10 ? 4 : 2) : data.lowFormatted} ${data.currency}
+• Volume (période) : ${data.periodVolume ? formatNumber(data.periodVolume, 2) : data.volumeFormatted} (unités)${purchaseInfo}
 
 🎯 MISSION :
 1. Fais une analyse technique courte (support/résistance, momentum).
@@ -1316,15 +1365,15 @@ Réponds de façon concise et percutante.`;
             const crypto = cryptoConfig.find(c => c.symbol === symbol);
             const currency = crypto ? crypto.currency : '€';
             
-            document.getElementById(`res-inv-${symbol}`).innerText = `${investment.toFixed(2)}${currency}`;
-            document.getElementById(`res-val-${symbol}`).innerText = `${currentVal.toFixed(2)}${currency}`;
+            document.getElementById(`res-inv-${symbol}`).innerText = `${formatNumber(investment, 2)}\u00A0${currency}`;
+            document.getElementById(`res-val-${symbol}`).innerText = `${formatNumber(currentVal, 2)}\u00A0${currency}`;
             
             const varEl = document.getElementById(`res-var-${symbol}`);
-            varEl.innerText = `${variation >= 0 ? '+' : ''}${variation.toFixed(2)}%`;
+            varEl.innerText = `${variation >= 0 ? '+' : ''}${formatNumber(variation, 2)}\u00A0%`;
             varEl.style.color = variation >= 0 ? '#00ff00' : '#ff3333';
             
             const pnlEl = document.getElementById(`res-pnl-${symbol}`);
-            pnlEl.innerText = `${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}${currency}`;
+            pnlEl.innerText = `${pnl >= 0 ? '+' : ''}${formatNumber(pnl, 2)}\u00A0${currency}`;
             pnlEl.style.color = pnl >= 0 ? '#00ff00' : '#ff3333';
         }
     </script>

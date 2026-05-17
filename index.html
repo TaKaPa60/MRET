@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,19 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://mret.fr/">
 
-    <!-- Schema.org JSON-LD pour le SEO et Réf IA -->
+    <!-- Optimisation Géographique / GEO-Targeting France & Europe -->
+    <meta name="geo.region" content="FR" />
+    <meta name="geo.placename" content="Paris" />
+    <meta name="geo.position" content="48.8566;2.3522" />
+    <meta name="ICBM" content="48.8566, 2.3522" />
+
+    <!-- Balises Hreflang pour le ciblage multilingue/multi-région -->
+    <link rel="alternate" hreflang="fr-FR" href="https://mret.fr/" />
+    <link rel="alternate" hreflang="fr-BE" href="https://mret.fr/" />
+    <link rel="alternate" hreflang="fr-CH" href="https://mret.fr/" />
+    <link rel="alternate" hreflang="x-default" href="https://mret.fr/" />
+
+    <!-- Schema.org JSON-LD pour le SEO et Réf IA (Optimisé Europe/France) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -24,9 +36,29 @@
       "operatingSystem": "Web",
       "description": "Simulateur de trading crypto réaliste branché sur les prix de Binance en temps réel. Entraînez-vous sans risque.",
       "url": "https://mret.fr/",
+      "inLanguage": "fr-FR",
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "France"
+        },
+        {
+          "@type": "Country",
+          "name": "Belgium"
+        },
+        {
+          "@type": "Country",
+          "name": "Switzerland"
+        },
+        {
+          "@type": "Continent",
+          "name": "Europe"
+        }
+      ],
       "author": {
         "@type": "Organization",
-        "name": "Mouvement R.E.T"
+        "name": "Mouvement R.E.T",
+        "url": "https://mret.fr/"
       },
       "offers": {
         "@type": "Offer",
@@ -41,6 +73,10 @@
     <meta property="og:title" content="R.E.T CryptoSim - Entraîne-toi au trading crypto">
     <meta property="og:description" content="Simule tes trades avec les vrais prix du marché. Zéro perte, 100% adrénaline. Rejoins la meute !">
     <meta property="og:image" content="https://mret.fr/RET01.png"> 
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="fr_BE" />
+    <meta property="og:locale:alternate" content="fr_CH" />
+    <meta property="og:locale:alternate" content="en_GB" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="R.E.T CryptoSim">
     <meta name="twitter:description" content="Fais le cash pis encaisse. Le simulateur crypto réaliste branché sur Binance.">
@@ -218,7 +254,7 @@
         <div class="nav-links">
             <a href="index.html" class="nav-link active">Accueil</a>
             <a href="academy.html" class="nav-link">Academy</a>
-            <a href="https://ret-mouvement.web.app/" class="nav-link">Stats Live</a>
+            <a href="analytics.html" class="nav-link">Stats Live</a>
         </div>
     </nav>
 
@@ -324,16 +360,16 @@
                 <h4>Frais de Plateforme</h4>
                 <div style="margin: 1.5rem 0;">
                     <select class="premium-select" id="feeSelect" onchange="updateFeeSelect(this)">
-                        <option value="0.10" data-platform="Binance">Binance (0.10%)</option>
-                        <option value="0.16" data-platform="Kraken Pro">Kraken Pro (0.16%)</option>
-                        <option value="0.26" data-platform="Kraken">Kraken (0.26%)</option>
-                        <option value="0.25" data-platform="Bitpanda Fusion">Bitpanda Fusion (0.25%)</option>
-                        <option value="1.49" data-platform="Bitpanda">Bitpanda (1.49%)</option>
-                        <option value="0.99" data-platform="Revolut Premium">Revolut Premium (0.99%)</option>
-                        <option value="1.49" data-platform="Revolut">Revolut (1.49%)</option>
+                        <option value="0.10" data-platform="Binance">Binance (0,10 %)</option>
+                        <option value="0.16" data-platform="Kraken Pro">Kraken Pro (0,16 %)</option>
+                        <option value="0.26" data-platform="Kraken">Kraken (0,26 %)</option>
+                        <option value="0.25" data-platform="Bitpanda Fusion">Bitpanda Fusion (0,25 %)</option>
+                        <option value="1.49" data-platform="Bitpanda">Bitpanda (1,49 %)</option>
+                        <option value="0.99" data-platform="Revolut Premium">Revolut Premium (0,99 %)</option>
+                        <option value="1.49" data-platform="Revolut">Revolut (1,49 %)</option>
                     </select>
                 </div>
-                <p class="fee-display"><span id="currentFee">0.10</span>%</p>
+                <p class="fee-display"><span id="currentFee">0,10</span>&nbsp;%</p>
                 <p id="platformName" style="font-size: 0.7rem; color: #777;">Commission Binance</p>
             </div>
             <div class="spec-card">
@@ -459,10 +495,11 @@
             // Fee Selector Logic
             function updateFeeSelect(select) {
                 const option = select.options[select.selectedIndex];
-                const fee = select.value;
+                const fee = parseFloat(select.value);
                 const platform = option.getAttribute('data-platform');
+                const formattedFee = fee.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-                document.getElementById('currentFee').innerText = fee;
+                document.getElementById('currentFee').innerText = formattedFee;
                 document.getElementById('platformName').innerText = `Commission ${platform}`;
             }
         </script>
