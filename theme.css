@@ -831,6 +831,18 @@ textarea {
     display: inline-block;
 }
 
+/* Invisible bridge to prevent dropdown from closing prematurely when moving mouse */
+.dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: transparent;
+    z-index: 1999;
+}
+
 .dropdown-btn {
     display: flex;
     align-items: center;
@@ -861,7 +873,7 @@ textarea {
     display: block;
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(5px);
+    transform: translateX(-50%) translateY(2px);
 }
 
 .dropdown-content a {
